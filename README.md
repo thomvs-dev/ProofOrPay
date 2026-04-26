@@ -6,6 +6,8 @@ ProofOrPay
 Please Try the DApp and let me know https://forms.gle/xaYrz9pPpga4Gvpr8
 ## User Feedback Form Responses 
 https://docs.google.com/spreadsheets/d/1KhlwRZR5CFgg0mgbiugZdNBsWBBLp1huaQeiJMlVY-Y/edit?usp=sharing
+
+
 Stellar Soroban implementation of the [ProofOrPay](../pact_protocol_spec.md): accountability stake pools, AI-assisted proof scoring, and optional reputation ledger.
 
 ## Layout

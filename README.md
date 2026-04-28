@@ -1,7 +1,7 @@
 ProofOrPay
 
 **Tagline:** *Stake your word. Ship or lose.*
-🔵 Level 5 - Blue Belt Submission
+🔵 Level 6 - Black Belt Submission
 
 Please Try the DApp and let me know https://forms.gle/xaYrz9pPpga4Gvpr8
 

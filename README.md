@@ -4,6 +4,9 @@ ProofOrPay
 🔵 Level 5 - Blue Belt Submission
 
 Please Try the DApp and let me know https://forms.gle/xaYrz9pPpga4Gvpr8
+
+Love you guys for the 32+ responses 😊🥳
+working on the improvements given 👇
 ## User Feedback Form Responses 
 https://docs.google.com/spreadsheets/d/1KhlwRZR5CFgg0mgbiugZdNBsWBBLp1huaQeiJMlVY-Y/edit?usp=sharing
 

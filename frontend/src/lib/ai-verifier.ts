@@ -1,5 +1,5 @@
 /**
- * Prompt + parsing helpers for Claude-based proof scoring (see pact_protocol_spec.md).
+ * Prompt + parsing helpers for proof scoring (Gemini or Claude).
  */
 
 export function buildScorePrompt(proofUrl: string, goal: string, repoContext: string): string {
@@ -26,11 +26,8 @@ export type ScoreResult = {
   breakdown: Record<string, unknown>;
 };
 
-export function parseScoreFromAnthropicJson(body: unknown): ScoreResult {
-  const root = body as {
-    content?: Array<{ text?: string }>;
-  };
-  const text = root.content?.[0]?.text ?? "";
+/** Pull `{ "score": ..., "breakdown": ... }` from free-form model output. */
+export function parseScoreFromModelText(text: string): ScoreResult {
   const jsonMatch = text.match(/\{[\s\S]*\}/);
   if (!jsonMatch) {
     throw new Error("No JSON in model response");
@@ -40,6 +37,26 @@ export function parseScoreFromAnthropicJson(body: unknown): ScoreResult {
     throw new Error("Invalid score in response");
   }
   return parsed;
+}
+
+/** Claude Messages API response shape. */
+export function parseScoreFromAnthropicJson(body: unknown): ScoreResult {
+  const root = body as {
+    content?: Array<{ text?: string }>;
+  };
+  const text = root.content?.[0]?.text ?? "";
+  return parseScoreFromModelText(text);
+}
+
+/** Gemini generateContent response shape. */
+export function parseScoreFromGeminiJson(body: unknown): ScoreResult {
+  const root = body as {
+    candidates?: Array<{
+      content?: { parts?: Array<{ text?: string }> };
+    }>;
+  };
+  const text = root.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+  return parseScoreFromModelText(text);
 }
 
 /** Best-effort GitHub metadata string for the scoring prompt. */

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Testnet invocation evidence",
+  "type": "object",
+  "required": ["network", "contracts", "invocations"],
+  "properties": {
+    "network": { "type": "string" },
+    "invocations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["contract", "function"],
+        "properties": {
+          "contract": { "type": "string" },
+          "function": { "type": "string" },
+          "tx_hash": { "type": ["string", "null"] },
+          "note": { "type": "string" }
+        }
+      }
+    }
+  }
+}

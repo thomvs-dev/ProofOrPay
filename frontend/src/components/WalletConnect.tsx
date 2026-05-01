@@ -9,6 +9,7 @@ import React, {
 } from "react";
 import { createWalletKit } from "@/lib/wallets";
 import { ERRORS } from "@/lib/errors";
+
 const FAUCET =
   "https://developers.stellar.org/docs/fundamentals-and-concepts/testnet-and-pubnet";
 
@@ -38,10 +39,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const connect = useCallback(async () => {
-    if (!kit) {
-      setConnectError(ERRORS.WALLET_NOT_FOUND);
-      return;
-    }
+    if (!kit) { setConnectError(ERRORS.WALLET_NOT_FOUND); return; }
     setIsConnecting(true);
     setConnectError(null);
     try {
@@ -59,10 +57,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
       });
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
-      if (
-        msg.toLowerCase().includes("not found") ||
-        msg.toLowerCase().includes("install")
-      ) {
+      if (msg.toLowerCase().includes("not found") || msg.toLowerCase().includes("install")) {
         setConnectError(ERRORS.WALLET_NOT_FOUND);
       } else {
         setConnectError(ERRORS.USER_REJECTED);
@@ -91,16 +86,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <WalletContext.Provider
-      value={{
-        kit,
-        publicKey,
-        isConnected: !!publicKey,
-        isConnecting,
-        connectError,
-        connect,
-        disconnect,
-        signTransaction,
-      }}
+      value={{ kit, publicKey, isConnected: !!publicKey, isConnecting, connectError, connect, disconnect, signTransaction }}
     >
       {children}
     </WalletContext.Provider>
@@ -119,31 +105,22 @@ export function WalletBanner() {
   const isWallet = connectError === ERRORS.WALLET_NOT_FOUND;
   return (
     <div
-      className={`mb-4 rounded-lg border px-4 py-3 text-sm ${
+      className={`mb-4 border-3 p-4 text-sm font-bold ${
         isWallet
-          ? "border-amber-700/50 bg-amber-950/40 text-amber-100"
-          : "border-red-800/50 bg-red-950/30 text-red-200"
+          ? "border-nb-orange bg-nb-card text-nb-orange"
+          : "border-nb-red bg-nb-card text-nb-red"
       }`}
+      style={{ boxShadow: isWallet ? "4px 4px 0 #FF6B35" : "4px 4px 0 #FF3B3B" }}
     >
       {connectError}
       {isWallet && (
-        <span className="block mt-2">
+        <span className="block mt-2 font-normal text-nb-muted">
           Install{" "}
-          <a
-            className="text-stellar-blue underline"
-            href="https://www.freighter.app/"
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a className="text-nb-yellow underline" href="https://www.freighter.app/" target="_blank" rel="noreferrer">
             Freighter
           </a>{" "}
           or{" "}
-          <a
-            className="text-stellar-blue underline"
-            href="https://xbull.app/"
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a className="text-nb-yellow underline" href="https://xbull.app/" target="_blank" rel="noreferrer">
             xBull
           </a>
           .
@@ -154,22 +131,19 @@ export function WalletBanner() {
 }
 
 export default function WalletConnect() {
-  const { publicKey, isConnected, isConnecting, connect, disconnect } =
-    useWallet();
+  const { publicKey, isConnected, isConnecting, connect, disconnect } = useWallet();
 
   if (isConnected && publicKey) {
     const short = `${publicKey.slice(0, 6)}…${publicKey.slice(-4)}`;
     return (
-      <div className="flex items-center gap-2 sm:gap-3">
-        <span className="text-xs sm:text-sm text-gray-400 font-mono hidden sm:block">
-          {short}
-        </span>
+      <div className="flex items-center gap-2">
+        <span className="text-xs font-mono text-nb-muted hidden sm:block">{short}</span>
         <button
           type="button"
           onClick={disconnect}
-          className="text-xs sm:text-sm px-3 py-1.5 rounded-lg border border-stellar-border text-gray-300 hover:bg-stellar-card transition-colors"
+          className="text-xs font-black uppercase border-2 border-white px-3 py-1.5 text-white hover:border-nb-red hover:text-nb-red transition-all"
         >
-          Disconnect
+          DISCONNECT
         </button>
       </div>
     );
@@ -180,9 +154,9 @@ export default function WalletConnect() {
       type="button"
       onClick={connect}
       disabled={isConnecting}
-      className="px-4 py-2 text-sm font-semibold bg-stellar-blue text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+      className="nb-btn-yellow text-xs disabled:opacity-50"
     >
-      {isConnecting ? "Connecting…" : "Connect Wallet"}
+      {isConnecting ? "CONNECTING…" : "CONNECT WALLET"}
     </button>
   );
 }
@@ -196,19 +170,14 @@ export function BalanceHint({
 }) {
   if (currentStroops >= requiredStroops) return null;
   return (
-    <div className="rounded-lg border border-red-900/50 bg-red-950/20 p-3 text-sm text-red-200">
-      <p>{ERRORS.INSUFFICIENT_BALANCE}</p>
-      <p className="mt-1 text-gray-400">
-        Balance: {(Number(currentStroops) / 1e7).toFixed(2)} XLM — required:{" "}
+    <div className="border-3 border-nb-red p-3 text-sm" style={{ boxShadow: "3px 3px 0 #FF3B3B" }}>
+      <p className="font-black text-nb-red uppercase">{ERRORS.INSUFFICIENT_BALANCE}</p>
+      <p className="mt-1 text-nb-muted font-mono text-xs">
+        Balance: {(Number(currentStroops) / 1e7).toFixed(2)} XLM — need:{" "}
         {(Number(requiredStroops) / 1e7).toFixed(2)} XLM
       </p>
-      <a
-        href={FAUCET}
-        className="mt-2 inline-block text-stellar-blue underline"
-        target="_blank"
-        rel="noreferrer"
-      >
-        Testnet faucet
+      <a href={FAUCET} className="mt-2 inline-block text-nb-yellow underline font-bold text-xs" target="_blank" rel="noreferrer">
+        GET TESTNET XLM →
       </a>
     </div>
   );

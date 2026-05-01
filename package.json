@@ -1,0 +1,8 @@
+{
+  "name": "onchain-account-root",
+  "private": true,
+  "scripts": {
+    "keypair": "node frontend/scripts/print-keypair.mjs",
+    "verify:testnet": "npm run verify:testnet --prefix frontend"
+  }
+}

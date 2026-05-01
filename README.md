@@ -6,7 +6,8 @@ ProofOrPay
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/3b0fb95a-2453-4dc5-a00a-935ef7ab6f1d" />
 Stellar Testnet Deployed Link: https://pactprotocolstellar.vercel.app
 Please Try the DApp and let me know https://forms.gle/xaYrz9pPpga4Gvpr8
-
+More Community Contributions expecting
+Thanks @fahmmin for the fixes (PR 1) done
 Love you guys for the 32+ responses 😊🥳
 working on the improvements given 👇
 ## User Feedback Form Responses 

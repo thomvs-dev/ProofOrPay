@@ -2,7 +2,9 @@ ProofOrPay
 
 **Tagline:** *Stake your word. Ship or lose.*
 🔵 Level 6 - Black Belt Submission
-
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/9fc7f45f-8c9b-45f9-9be6-fc3a5a653d71" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/3b0fb95a-2453-4dc5-a00a-935ef7ab6f1d" />
+Stellar Testnet Deployed Link: https://pactprotocolstellar.vercel.app
 Please Try the DApp and let me know https://forms.gle/xaYrz9pPpga4Gvpr8
 
 Love you guys for the 32+ responses 😊🥳
@@ -91,6 +93,7 @@ npm install && npm run dev
 **Init txs:** [Reputation `init`](https://stellar.expert/explorer/testnet/tx/b1c5212f5a51669eed39df79726784c69ab8f32dc6e228898c54a8a4f9443d0c) · [StakePool `init`](https://stellar.expert/explorer/testnet/tx/40f1714670698e0dd8f9993db2702b20a929da4c1581624494af2902f2cf8ec1)
 
 CLI aliases: `proof-or-pay-reputation`, `proof-or-pay-stake-pool` (`stellar contract alias ls`).
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/75dae7b8-9263-44bc-b7e5-9bffecfbeaa9" />
 
 ## Error handling (UI)
 

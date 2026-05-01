@@ -3,12 +3,116 @@
 @tailwind utilities;
 
 :root {
-  --background: #0a0b14;
-  --foreground: #e5e7eb;
+  --nb-bg: #0D0D0D;
+  --nb-card: #161616;
+  --nb-yellow: #FFE500;
+  --nb-pink: #FF3BFF;
+  --nb-green: #00FF94;
+  --nb-orange: #FF6B35;
+  --nb-blue: #3B7EFF;
+  --nb-border: 3px solid #FFFFFF;
+  --nb-shadow: 4px 4px 0px #FFFFFF;
 }
 
 body {
-  background-color: var(--background);
-  color: var(--foreground);
+  background-color: var(--nb-bg);
+  color: #F5F5F5;
   font-family: system-ui, -apple-system, sans-serif;
+}
+
+@layer utilities {
+  .nb-card {
+    @apply bg-nb-card border-3 border-white;
+    box-shadow: 4px 4px 0px #FFFFFF;
+  }
+  .nb-card-yellow {
+    @apply bg-nb-card border-3 border-nb-yellow;
+    box-shadow: 4px 4px 0px #FFE500;
+  }
+  .nb-card-pink {
+    @apply bg-nb-card border-3 border-nb-pink;
+    box-shadow: 4px 4px 0px #FF3BFF;
+  }
+  .nb-card-green {
+    @apply bg-nb-card border-3 border-nb-green;
+    box-shadow: 4px 4px 0px #00FF94;
+  }
+  .nb-card-orange {
+    @apply bg-nb-card border-3 border-nb-orange;
+    box-shadow: 4px 4px 0px #FF6B35;
+  }
+  .nb-card-blue {
+    @apply bg-nb-card border-3 border-nb-blue;
+    box-shadow: 4px 4px 0px #3B7EFF;
+  }
+  .nb-btn {
+    @apply inline-flex items-center justify-center font-bold uppercase tracking-wide border-3 border-white px-5 py-2.5 transition-all;
+    box-shadow: 4px 4px 0px #FFFFFF;
+  }
+  .nb-btn:hover:not(:disabled) {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px #FFFFFF;
+  }
+  .nb-btn:active:not(:disabled) {
+    transform: translate(4px, 4px);
+    box-shadow: 0px 0px 0px #FFFFFF;
+  }
+  .nb-btn-yellow {
+    @apply nb-btn bg-nb-yellow text-black border-nb-yellow;
+    box-shadow: 4px 4px 0px #FFE500;
+  }
+  .nb-btn-yellow:hover:not(:disabled) {
+    box-shadow: 2px 2px 0px #FFE500;
+  }
+  .nb-btn-pink {
+    @apply nb-btn bg-nb-pink text-black border-nb-pink;
+    box-shadow: 4px 4px 0px #FF3BFF;
+  }
+  .nb-btn-green {
+    @apply nb-btn bg-nb-green text-black border-nb-green;
+    box-shadow: 4px 4px 0px #00FF94;
+  }
+  .nb-btn-orange {
+    @apply nb-btn bg-nb-orange text-black border-nb-orange;
+    box-shadow: 4px 4px 0px #FF6B35;
+  }
+  .nb-btn-blue {
+    @apply nb-btn bg-nb-blue text-white border-nb-blue;
+    box-shadow: 4px 4px 0px #3B7EFF;
+  }
+  .nb-btn-ghost {
+    @apply nb-btn bg-transparent text-white;
+  }
+  .nb-input {
+    @apply bg-nb-bg border-3 border-white px-3 py-2.5 text-white w-full outline-none font-mono text-sm;
+    box-shadow: 3px 3px 0px #FFFFFF;
+  }
+  .nb-input:focus {
+    @apply border-nb-yellow;
+    box-shadow: 3px 3px 0px #FFE500;
+  }
+  .nb-badge {
+    @apply inline-block border-2 font-bold uppercase text-xs px-2 py-0.5 tracking-wider;
+  }
+  .nb-badge-yellow {
+    @apply nb-badge border-nb-yellow text-nb-yellow;
+  }
+  .nb-badge-green {
+    @apply nb-badge border-nb-green text-nb-green;
+  }
+  .nb-badge-pink {
+    @apply nb-badge border-nb-pink text-nb-pink;
+  }
+  .nb-badge-orange {
+    @apply nb-badge border-nb-orange text-nb-orange;
+  }
+  .nb-badge-muted {
+    @apply nb-badge border-nb-muted text-nb-muted;
+  }
+  .nb-label {
+    @apply block text-xs font-bold uppercase tracking-widest text-nb-muted mb-1.5;
+  }
+  .nb-section-title {
+    @apply text-2xl font-black uppercase tracking-tight text-white;
+  }
 }

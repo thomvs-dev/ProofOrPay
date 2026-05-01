@@ -1,0 +1,13 @@
+{
+  "timestamp": "2026-04-20T00:00:00.000Z",
+  "network": "testnet",
+  "rpc_url": "https://soroban-testnet.stellar.org",
+  "simulation_account": "G...EXAMPLE",
+  "contracts": {
+    "stake_pool": "CCTG6HGQJFCOVK6VVU4SA46KIHQU5Q6QMSJ3WVOXHGZRYXOMANVWTLLW",
+    "reputation_ledger": "CBANPWSJ4BDAK46WC3VVB6RRV4TUHCXLWALHYOUGTNBZA3J25SKA7DCE"
+  },
+  "checks": [],
+  "summary": { "passed": 0, "failed": 0, "total": 0 },
+  "note": "Example shape only. Run cd frontend && npm run verify:testnet or scripts/snapshot-pools.sh to generate a real report."
+}

@@ -1,0 +1,84 @@
+{
+  "$schema": "./testnet-evidence.schema.json",
+  "network": "testnet",
+  "passphrase": "Test SDF Network ; September 2015",
+  "rpc_url": "https://soroban-testnet.stellar.org",
+  "horizon_url": "https://horizon-testnet.stellar.org",
+  "contracts": {
+    "stake_pool": "CCTG6HGQJFCOVK6VVU4SA46KIHQU5Q6QMSJ3WVOXHGZRYXOMANVWTLLW",
+    "reputation_ledger": "CBANPWSJ4BDAK46WC3VVB6RRV4TUHCXLWALHYOUGTNBZA3J25SKA7DCE"
+  },
+  "explorer": "https://stellar.expert/explorer/testnet/tx/",
+  "invocations": [
+    {
+      "contract": "reputation_ledger",
+      "function": "init",
+      "tx_hash": "b1c5212f5a51669eed39df79726784c69ab8f32dc6e228898c54a8a4f9443d0c",
+      "note": "Deploy/init (Stellar Expert link in README)"
+    },
+    {
+      "contract": "stake_pool",
+      "function": "init",
+      "tx_hash": "40f1714670698e0dd8f9993db2702b20a929da4c1581624494af2902f2cf8ec1",
+      "note": "Deploy/init (Stellar Expert link in README)"
+    },
+    {
+      "contract": "stake_pool",
+      "function": "create_pool",
+      "tx_hash": null,
+      "note": "Run scripts/invoke-test.sh with funded testnet secret; paste tx hash after success"
+    },
+    {
+      "contract": "stake_pool",
+      "function": "stake",
+      "tx_hash": null,
+      "note": "Via app Stake form or soroban invoke with XLM; paste hash"
+    },
+    {
+      "contract": "stake_pool",
+      "function": "submit_proof",
+      "tx_hash": null,
+      "note": "Via app; paste hash"
+    },
+    {
+      "contract": "stake_pool",
+      "function": "record_ai_verdict",
+      "tx_hash": null,
+      "note": "Signed by verifier key (e.g. /api/score flow); paste hash"
+    },
+    {
+      "contract": "stake_pool",
+      "function": "confirm_peer",
+      "tx_hash": null,
+      "note": "Requires two members; paste hash"
+    },
+    {
+      "contract": "stake_pool",
+      "function": "settle_pool",
+      "tx_hash": null,
+      "note": "After deadline; includes ReputationLedger record_outcome subcalls"
+    },
+    {
+      "contract": "reputation_ledger",
+      "function": "record_outcome",
+      "tx_hash": null,
+      "note": "Only StakePool; evidenced by same tx as settle_pool when applicable"
+    },
+    {
+      "contract": "reputation_ledger",
+      "function": "add_stake_stats",
+      "tx_hash": null,
+      "note": "Optional StakePool extension; not required for core flow"
+    }
+  ],
+  "readonly_checks": {
+    "automated_by": "frontend/scripts/verify-testnet.mjs",
+    "functions": [
+      "get_pool",
+      "get_member",
+      "get_all_pools",
+      "get_reputation",
+      "get_leaderboard"
+    ]
+  }
+}

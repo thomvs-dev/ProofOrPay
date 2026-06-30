@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 :root {
+  --font-heading: "HelveticaNowDisplay-Medium", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "HelveticaNowDisplayW01-Rg", "Helvetica Neue", Arial, sans-serif;
   --nb-bg: #0D0D0D;
   --nb-card: #161616;
   --nb-yellow: #FFE500;
@@ -12,6 +14,37 @@
   --nb-blue: #3B7EFF;
   --nb-border: 3px solid #FFFFFF;
   --nb-shadow: 4px 4px 0px #FFFFFF;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes pill-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 body {
@@ -114,5 +147,25 @@ body {
   }
   .nb-section-title {
     @apply text-2xl font-black uppercase tracking-tight text-white;
+  }
+  .landing-font-body {
+    font-family: var(--font-body);
+  }
+  .landing-font-heading {
+    font-family: var(--font-heading);
+  }
+  .typewriter-cursor {
+    animation: blink 1s step-end infinite;
+  }
+  .pill-enter {
+    animation: pill-enter 0.4s ease forwards;
+  }
+  .landing-gradient-overlay {
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.45) 0%,
+      rgba(0, 0, 0, 0.1) 40%,
+      transparent 70%
+    );
   }
 }

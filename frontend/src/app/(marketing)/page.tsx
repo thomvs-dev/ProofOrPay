@@ -3,6 +3,7 @@
 import { MouseScrubVideo } from "@/components/landing/MouseScrubVideo";
 import { LandingNavbar } from "@/components/landing/LandingNavbar";
 import { LandingHero } from "@/components/landing/LandingHero";
+import { HowItWorksSection } from "@/components/landing/HowItWorksSection";
 
 export default function LandingPage() {
   return (
@@ -10,6 +11,7 @@ export default function LandingPage() {
       <MouseScrubVideo />
       <LandingNavbar />
       <LandingHero />
+      <HowItWorksSection />
     </>
   );
 }

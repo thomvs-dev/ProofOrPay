@@ -8,6 +8,7 @@ export const NETWORK = {
 export const CONTRACT_IDS = {
   stakePool: process.env.NEXT_PUBLIC_STAKE_POOL_ID ?? "",
   reputationLedger: process.env.NEXT_PUBLIC_REPUTATION_LEDGER_ID ?? "",
+  proofBadge: process.env.NEXT_PUBLIC_PROOF_BADGE_ID ?? "",
   xlmToken:
     process.env.NEXT_PUBLIC_XLM_TOKEN_ID ??
     "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",

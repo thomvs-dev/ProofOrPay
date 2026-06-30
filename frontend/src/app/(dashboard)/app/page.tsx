@@ -1,16 +1,17 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, type ReactNode } from "react";
 import { useWallet } from "@/components/WalletConnect";
 import { CONTRACT_IDS } from "@/lib/constants";
 import { simulateTx, addressToScVal, u64ToScVal } from "@/lib/stellar";
+import { readOptionalString } from "@/lib/ipfs";
 import { CreatePoolForm } from "@/components/CreatePoolForm";
-import { NbButton } from "@/components/ui/NbButton";
 import { PoolCardSkeleton } from "@/components/ui/NbSkeleton";
 import { StakeForm } from "@/components/StakeForm";
 import { SubmissionForm } from "@/components/SubmissionForm";
 import { ConfirmPeerForm } from "@/components/ConfirmPeerForm";
 import { SettlePoolButton } from "@/components/SettlePoolButton";
+import { FilterChip, PageHeader } from "@/components/ui/PageHeader";
 import type { MemberView, PoolView } from "@/types/pact";
 
 function mapPool(raw: unknown): PoolView {
@@ -28,6 +29,7 @@ function mapPool(raw: unknown): PoolView {
     members,
     status: String(p.status ?? "Active") as PoolView["status"],
     threshold: Number(p.threshold ?? 60),
+    cover_cid: readOptionalString(p.cover_cid),
   };
 }
 
@@ -73,9 +75,12 @@ function usePoolsRefresh(publicKey: string | null) {
                 address: addr,
                 staked: Boolean(m.staked),
                 proof_url: m.proof_url != null ? String(m.proof_url) : null,
+                proof_cid: readOptionalString(m.proof_cid),
+                proof_image_cid: readOptionalString(m.proof_image_cid),
                 ai_score: m.ai_score != null ? Number(m.ai_score) : null,
                 peer_confirmations: Number(m.peer_confirmations ?? 0),
                 shipped: Boolean(m.shipped),
+                proof_nft_id: m.proof_nft_id != null ? BigInt(String(m.proof_nft_id)) : null,
               });
             } catch { /* skip */ }
           }
@@ -96,18 +101,10 @@ function usePoolsRefresh(publicKey: string | null) {
   return { pools, membersByPool, loadError, loading, refresh };
 }
 
-function ActionSection({
-  title,
-  accent,
-  children,
-}: {
-  title: string;
-  accent: string;
-  children: React.ReactNode;
-}) {
+function ActionSection({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <div className={`${accent} p-5 space-y-3`}>
-      <p className="text-xs font-black uppercase tracking-widest text-nb-muted">{title}</p>
+    <div className="nb-card p-5 space-y-3">
+      <p className="text-sm text-black/45">{title}</p>
       {children}
     </div>
   );
@@ -138,15 +135,10 @@ export default function AppPage() {
   if (!publicKey) {
     return (
       <div className="space-y-8 pb-16">
-        <div className="border-b-3 border-white pb-6">
-          <p className="text-xs font-bold uppercase tracking-widest text-nb-muted mb-2">PROOFORPAY</p>
-          <h1 className="text-5xl font-black uppercase tracking-tight text-white">
-            LAUNCH <span className="text-nb-green">APP</span>
-          </h1>
-        </div>
-        <div className="nb-card-yellow p-10 flex flex-col items-center gap-5 text-center">
-          <p className="text-4xl font-black uppercase text-white">WALLET REQUIRED</p>
-          <p className="text-nb-muted max-w-md">
+        <PageHeader eyebrow="ProofOrPay" title="Launch app" />
+        <div className="nb-card p-10 flex flex-col items-center gap-5 text-center">
+          <p className="text-2xl font-medium text-black landing-font-heading">Wallet required</p>
+          <p className="text-black/55 max-w-md text-sm">
             Connect your Stellar wallet to create pools, stake XLM, submit proof, and settle.
           </p>
           <button
@@ -155,7 +147,7 @@ export default function AppPage() {
             disabled={isConnecting}
             className="nb-btn-yellow disabled:opacity-50"
           >
-            {isConnecting ? "CONNECTING…" : "CONNECT WALLET →"}
+            {isConnecting ? "Connecting…" : "Connect wallet"}
           </button>
         </div>
       </div>
@@ -164,11 +156,11 @@ export default function AppPage() {
 
   if (!CONTRACT_IDS.stakePool) {
     return (
-      <div className="nb-card-orange p-6">
-        <p className="font-black text-lg uppercase text-white mb-2">CONFIG MISSING</p>
-        <p className="text-nb-muted text-sm">
-          Set <code className="text-nb-orange">NEXT_PUBLIC_STAKE_POOL_ID</code> in{" "}
-          <code className="text-nb-orange">.env.local</code> then restart.
+      <div className="nb-card p-6">
+        <p className="font-medium text-lg text-black mb-2 landing-font-heading">Config missing</p>
+        <p className="text-black/55 text-sm">
+          Set <code className="font-mono text-black/70">NEXT_PUBLIC_STAKE_POOL_ID</code> in{" "}
+          <code className="font-mono text-black/70">.env.local</code> then restart.
         </p>
       </div>
     );
@@ -182,36 +174,29 @@ export default function AppPage() {
 
   return (
     <div className="space-y-8 pb-16">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b-3 border-white pb-6">
-        <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-nb-muted mb-2">
-            CONNECTED: <span className="font-mono text-white">{publicKey.slice(0,6)}…{publicKey.slice(-4)}</span>
-          </p>
-          <h1 className="text-4xl sm:text-5xl font-black uppercase tracking-tight text-white">
-            YOUR <span className="text-nb-green">POOLS</span>
-          </h1>
-        </div>
+      <PageHeader
+        eyebrow={`Connected: ${publicKey.slice(0, 6)}…${publicKey.slice(-4)}`}
+        title="Your pools"
+      >
         <button
           type="button"
           onClick={refresh}
           disabled={loading}
           className="nb-btn-ghost text-xs self-start sm:self-auto disabled:opacity-40"
         >
-          {loading ? "LOADING…" : "↺ REFRESH"}
+          {loading ? "Loading…" : "Refresh"}
         </button>
-      </div>
+      </PageHeader>
 
       {loadError && (
-        <div className="nb-card p-4" style={{ borderColor: "#FF3B3B", boxShadow: "4px 4px 0 #FF3B3B" }}>
-          <p className="text-nb-red font-bold text-sm">{loadError}</p>
+        <div className="nb-card p-4 border-red-200 bg-red-50">
+          <p className="text-red-800 text-sm">{loadError}</p>
         </div>
       )}
 
-      {/* Create pool */}
-      <div className="nb-card-yellow p-5 sm:p-6 space-y-4">
-        <p className="text-xs font-black uppercase tracking-widest text-nb-muted">CREATE NEW POOL</p>
-        <p className="text-2xl font-black uppercase text-white">SET YOUR GOAL.</p>
+      <div className="nb-card p-5 sm:p-6 space-y-4">
+        <p className="text-sm text-black/45">Create new pool</p>
+        <p className="text-xl font-medium text-black landing-font-heading">Set your goal</p>
         <CreatePoolForm onPoolCreated={refresh} />
       </div>
 
@@ -224,110 +209,99 @@ export default function AppPage() {
 
       {!loading && pools.length === 0 && !loadError && (
         <div className="nb-card p-10 text-center">
-          <p className="text-nb-muted font-black uppercase text-xl">NO POOLS YET</p>
-          <p className="text-nb-muted text-sm mt-2">Use the form above to create the first one.</p>
+          <p className="text-black/55 font-medium text-xl landing-font-heading">No pools yet</p>
+          <p className="text-black/45 text-sm mt-2">Use the form above to create the first one.</p>
         </div>
       )}
 
       {pools.length > 0 && (
         <>
-          {/* Pool selector */}
           {pools.length > 1 && (
             <div className="flex flex-wrap gap-2">
-              <span className="text-xs font-bold uppercase tracking-widest text-nb-muted py-2 w-full">
-                SELECT POOL:
-              </span>
+              <span className="text-xs text-black/45 py-2 w-full">Select pool</span>
               {pools.map((p) => (
-                <button
+                <FilterChip
                   key={p.pool_id.toString()}
-                  type="button"
+                  active={selectedPoolId === p.pool_id.toString()}
                   onClick={() => setSelectedPoolId(p.pool_id.toString())}
-                  className={`text-xs font-black uppercase border-2 px-3 py-1.5 transition-all ${
-                    selectedPoolId === p.pool_id.toString()
-                      ? "bg-nb-yellow text-black border-nb-yellow"
-                      : "border-white text-white hover:border-nb-yellow hover:text-nb-yellow"
-                  }`}
                 >
                   #{p.pool_id.toString()} {p.goal.slice(0, 20)}{p.goal.length > 20 ? "…" : ""}
-                </button>
+                </FilterChip>
               ))}
             </div>
           )}
 
           {activePool && (
             <div className="space-y-4">
-              {/* Pool header card */}
-              <div className="nb-card-green p-5 space-y-3">
+              <div className="nb-card p-5 space-y-3">
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
                   <div>
-                    <span className="text-xs font-mono text-nb-muted">POOL #{activePool.pool_id.toString()}</span>
-                    <p className="text-xl font-black text-white mt-1">{activePool.goal}</p>
+                    <span className="text-xs font-mono text-black/45">Pool #{activePool.pool_id.toString()}</span>
+                    <p className="text-xl font-medium text-black mt-1 landing-font-heading">{activePool.goal}</p>
                   </div>
                   <div className="text-right shrink-0">
                     <span className={`nb-badge-${activePool.status === "Active" ? "yellow" : activePool.status === "Settling" ? "orange" : "green"}`}>
-                      {activePool.status.toUpperCase()}
+                      {activePool.status}
                     </span>
                     {deadlineDate && (
-                      <p className="text-nb-muted text-xs mt-1">DEADLINE: {deadlineDate}</p>
+                      <p className="text-black/45 text-xs mt-1">Deadline: {deadlineDate}</p>
                     )}
                   </div>
                 </div>
 
-                <div className="grid grid-cols-3 gap-3 border-t-2 border-white/20 pt-3">
+                <div className="grid grid-cols-3 gap-3 border-t border-black/10 pt-3">
                   <div>
-                    <p className="text-xs font-bold uppercase text-nb-muted">STAKE</p>
-                    <p className="font-black text-nb-green">
+                    <p className="text-xs text-black/45">Stake</p>
+                    <p className="font-medium text-black">
                       {(Number(activePool.stake_amount) / 1e7).toFixed(2)} XLM
                     </p>
                   </div>
                   <div>
-                    <p className="text-xs font-bold uppercase text-nb-muted">THRESHOLD</p>
-                    <p className="font-black text-nb-green">{activePool.threshold}</p>
+                    <p className="text-xs text-black/45">Threshold</p>
+                    <p className="font-medium text-black">{activePool.threshold}</p>
                   </div>
                   <div>
-                    <p className="text-xs font-bold uppercase text-nb-muted">MEMBERS</p>
-                    <p className="font-black text-nb-green">{activePool.members.length}</p>
+                    <p className="text-xs text-black/45">Members</p>
+                    <p className="font-medium text-black">{activePool.members.length}</p>
                   </div>
                 </div>
 
-                {/* Members list */}
                 {activeMembers.length > 0 && (
-                  <div className="border-t-2 border-white/20 pt-3 space-y-2">
-                    <p className="text-xs font-black uppercase tracking-widest text-nb-muted">MEMBERS</p>
+                  <div className="border-t border-black/10 pt-3 space-y-2">
+                    <p className="text-xs text-black/45">Members</p>
                     {activeMembers.map((m) => (
                       <div
                         key={m.address}
-                        className="flex flex-wrap items-center gap-2 border border-white/20 px-3 py-2"
+                        className="flex flex-wrap items-center gap-2 border border-black/10 rounded-lg px-3 py-2"
                       >
-                        <span className="font-mono text-xs text-white">
+                        <span className="font-mono text-xs text-black">
                           {m.address.slice(0, 8)}…{m.address.slice(-4)}
                         </span>
                         {m.address === publicKey && (
-                          <span className="text-nb-yellow text-xs font-bold">YOU</span>
+                          <span className="nb-badge text-[10px]">You</span>
                         )}
-                        {m.staked  && <span className="text-nb-green text-xs font-bold">STAKED</span>}
-                        {m.shipped && <span className="text-nb-yellow text-xs font-bold">SHIPPED</span>}
+                        {m.staked && <span className="nb-badge-green text-[10px]">Staked</span>}
+                        {m.shipped && <span className="nb-badge text-[10px]">Shipped</span>}
                         {m.ai_score != null && (
-                          <span className="text-nb-green font-black text-xs">AI:{m.ai_score}</span>
+                          <span className="text-emerald-700 text-xs">AI: {m.ai_score}</span>
                         )}
-                        <span className="text-nb-muted text-xs">{m.peer_confirmations} PEERS</span>
+                        <span className="text-black/45 text-xs">{m.peer_confirmations} peers</span>
                       </div>
                     ))}
                   </div>
                 )}
               </div>
 
-              {/* Actions grid */}
               <div className="grid gap-4 sm:grid-cols-2">
-                <ActionSection title="STAKE XLM" accent="nb-card-yellow">
-                  <p className="text-sm text-nb-muted">
+                <ActionSection title="Stake XLM">
+                  <p className="text-sm text-black/55">
                     Lock {(Number(activePool.stake_amount) / 1e7).toFixed(2)} XLM to join this pool.
                   </p>
                   <StakeForm poolId={activePool.pool_id} onSuccess={refresh} />
                 </ActionSection>
 
-                <ActionSection title="PROOF & AI SCORE" accent="nb-card-pink">
-                  <p className="text-sm text-nb-muted">
+                <ActionSection title="Proof & AI score">
+                  <p className="text-sm text-black/55">
                     Submit a link to your work — repo, demo, doc. AI will score it.
                   </p>
                   <SubmissionForm
@@ -337,8 +311,8 @@ export default function AppPage() {
                   />
                 </ActionSection>
 
-                <ActionSection title="PEER VOUCH" accent="nb-card-blue">
-                  <p className="text-sm text-nb-muted">
+                <ActionSection title="Peer vouch">
+                  <p className="text-sm text-black/55">
                     Confirm another member shipped. Can&apos;t vouch for yourself.
                   </p>
                   <ConfirmPeerForm
@@ -348,8 +322,8 @@ export default function AppPage() {
                   />
                 </ActionSection>
 
-                <ActionSection title="SETTLEMENT" accent="nb-card-orange">
-                  <p className="text-sm text-nb-muted">
+                <ActionSection title="Settlement">
+                  <p className="text-sm text-black/55">
                     After deadline, trigger settlement to pay out and update reputation.
                   </p>
                   <SettlePoolButton

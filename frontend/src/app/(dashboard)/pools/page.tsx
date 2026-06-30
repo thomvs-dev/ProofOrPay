@@ -5,8 +5,11 @@ import Link from "next/link";
 import { useWallet } from "@/components/WalletConnect";
 import { CONTRACT_IDS } from "@/lib/constants";
 import { simulateTx, addressToScVal, u64ToScVal } from "@/lib/stellar";
+import { readOptionalString } from "@/lib/ipfs";
 import { NbInput } from "@/components/ui/NbInput";
+import { FilterChip, PageHeader } from "@/components/ui/PageHeader";
 import { PoolCardSkeleton } from "@/components/ui/NbSkeleton";
+import { IpfsImage } from "@/components/IpfsImage";
 import type { MemberView, PoolView, PoolStatus } from "@/types/pact";
 
 function mapPool(raw: unknown): PoolView {
@@ -24,21 +27,14 @@ function mapPool(raw: unknown): PoolView {
     members,
     status: String(p.status ?? "Active") as PoolStatus,
     threshold: Number(p.threshold ?? 60),
+    cover_cid: readOptionalString(p.cover_cid),
   };
 }
 
-const CARD_ACCENTS = [
-  { card: "nb-card-yellow", badge: "nb-badge-yellow", text: "text-nb-yellow" },
-  { card: "nb-card-pink",   badge: "nb-badge-pink",   text: "text-nb-pink"   },
-  { card: "nb-card-green",  badge: "nb-badge-green",  text: "text-nb-green"  },
-  { card: "nb-card-orange", badge: "nb-badge-orange", text: "text-nb-orange" },
-  { card: "nb-card-blue",   badge: "nb-badge-yellow", text: "text-nb-blue"   },
-] as const;
-
 function statusBadge(status: PoolStatus) {
-  if (status === "Active")   return <span className="nb-badge-yellow">ACTIVE</span>;
-  if (status === "Settling") return <span className="nb-badge-orange">SETTLING</span>;
-  return <span className="nb-badge-green">SETTLED</span>;
+  if (status === "Active") return <span className="nb-badge">Active</span>;
+  if (status === "Settling") return <span className="nb-badge-orange">Settling</span>;
+  return <span className="nb-badge-green">Settled</span>;
 }
 
 function timeLeft(deadline: bigint, nowSec: number) {
@@ -53,34 +49,32 @@ function MemberRow({ m, rank }: { m: MemberView; rank: number }) {
   const score = m.ai_score ?? 0;
   const pct = Math.min(100, score);
   return (
-    <div className="flex items-center gap-3 py-2 border-b border-white/10 last:border-0">
-      <span className="text-nb-muted font-mono text-xs w-5 text-right">{rank}</span>
+    <div className="flex items-center gap-3 py-2 border-b border-black/10 last:border-0">
+      <span className="text-black/40 font-mono text-xs w-5 text-right">{rank}</span>
       <div className="flex-1 min-w-0">
-        <span className="font-mono text-xs text-white truncate block">
+        <span className="font-mono text-xs text-black truncate block">
           {m.address.slice(0, 8)}…{m.address.slice(-4)}
         </span>
-        <div className="flex gap-2 mt-0.5">
-          {m.staked  && <span className="text-nb-green text-xs font-bold">STAKED</span>}
-          {m.shipped && <span className="text-nb-yellow text-xs font-bold">SHIPPED</span>}
+        <div className="flex gap-2 mt-0.5 flex-wrap">
+          {m.staked && <span className="nb-badge-green text-[10px]">Staked</span>}
+          {m.shipped && <span className="nb-badge text-[10px]">Shipped</span>}
+          {m.proof_nft_id != null && (
+            <span className="nb-badge text-[10px]">NFT #{m.proof_nft_id.toString()}</span>
+          )}
           {m.peer_confirmations > 0 && (
-            <span className="text-nb-pink text-xs">+{m.peer_confirmations} PEERS</span>
+            <span className="text-black/45 text-xs">+{m.peer_confirmations} peers</span>
           )}
         </div>
       </div>
       {m.ai_score != null ? (
         <div className="flex items-center gap-2">
-          <div className="w-16 h-1.5 bg-white/10 border border-white/20">
-            <div
-              className="h-full bg-nb-green"
-              style={{ width: `${pct}%` }}
-            />
+          <div className="w-16 h-1.5 bg-black/10 rounded-full overflow-hidden">
+            <div className="h-full bg-emerald-600 rounded-full" style={{ width: `${pct}%` }} />
           </div>
-          <span className="text-nb-green font-black text-sm w-8 text-right">
-            {score}
-          </span>
+          <span className="text-emerald-700 font-medium text-sm w-8 text-right">{score}</span>
         </div>
       ) : (
-        <span className="text-nb-muted text-xs w-8 text-right">—</span>
+        <span className="text-black/40 text-xs w-8 text-right">—</span>
       )}
     </div>
   );
@@ -89,14 +83,12 @@ function MemberRow({ m, rank }: { m: MemberView; rank: number }) {
 function PoolCard({
   pool,
   members,
-  accent,
   nowSec,
   expanded,
   onToggle,
 }: {
   pool: PoolView;
   members: MemberView[];
-  accent: typeof CARD_ACCENTS[number];
   nowSec: number;
   expanded: boolean;
   onToggle: () => void;
@@ -108,45 +100,42 @@ function PoolCard({
   const staked  = members.filter((m) => m.staked).length;
 
   return (
-    <article className={`${accent.card} p-5 space-y-4`}>
+    <article className="nb-card overflow-hidden">
+      <IpfsImage
+        cid={pool.cover_cid}
+        alt={pool.goal}
+        className="aspect-[21/9] w-full border-b border-black/10"
+      />
+      <div className="p-5 space-y-4">
       <header className="flex items-start justify-between gap-3">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
-            <span className={`font-mono text-xs font-bold ${accent.text}`}>
+            <span className="font-mono text-xs text-black/50">
               #{pool.pool_id.toString()}
             </span>
             {statusBadge(pool.status)}
           </div>
-          <p className="font-bold text-white text-base leading-snug">{pool.goal}</p>
-          <p className="font-mono text-xs text-nb-muted mt-1 truncate">
+          <p className="font-medium text-black text-base leading-snug landing-font-heading">{pool.goal}</p>
+          <p className="font-mono text-xs text-black/45 mt-1 truncate">
             by {pool.creator.slice(0, 8)}…{pool.creator.slice(-4)}
           </p>
         </div>
         <div className="text-right shrink-0">
-          <p className={`font-black text-sm ${accent.text}`}>
-            {timeLeft(pool.deadline, nowSec)}
-          </p>
-          <p className="text-nb-muted text-xs mt-1">
+          <p className="font-medium text-sm text-black">{timeLeft(pool.deadline, nowSec)}</p>
+          <p className="text-black/45 text-xs mt-1">
             {(Number(pool.stake_amount) / 1e7).toFixed(1)} XLM / member
           </p>
         </div>
       </header>
 
-      {/* Progress bar: shipped / total */}
       <div>
-        <div className="flex justify-between text-xs font-bold uppercase mb-1">
-          <span className="text-nb-muted">{staked} STAKED · {shipped} SHIPPED</span>
-          <span className={accent.text}>{pool.members.length} MEMBERS</span>
+        <div className="flex justify-between text-xs mb-1 text-black/45">
+          <span>{staked} staked · {shipped} shipped</span>
+          <span>{pool.members.length} members</span>
         </div>
-        <div className="h-2 bg-white/10 border border-white/20">
+        <div className="h-1.5 bg-black/10 rounded-full overflow-hidden">
           <div
-            className={`h-full ${
-              accent.text === "text-nb-yellow" ? "bg-nb-yellow" :
-              accent.text === "text-nb-pink"   ? "bg-nb-pink"   :
-              accent.text === "text-nb-green"  ? "bg-nb-green"  :
-              accent.text === "text-nb-blue"   ? "bg-nb-blue"   :
-              "bg-nb-orange"
-            }`}
+            className="h-full bg-black rounded-full"
             style={{
               width: pool.members.length
                 ? `${Math.round((shipped / pool.members.length) * 100)}%`
@@ -157,31 +146,19 @@ function PoolCard({
       </div>
 
       <div className="flex items-center justify-between">
-        <div className="flex gap-3 text-xs text-nb-muted">
-          <span>AI THRESHOLD: <strong className="text-white">{pool.threshold}</strong></span>
-        </div>
-        <button
-          type="button"
-          onClick={onToggle}
-          className={`text-xs font-black uppercase border-2 px-3 py-1 transition-all ${accent.text} ${
-            accent.text === "text-nb-yellow" ? "border-nb-yellow hover:bg-nb-yellow hover:text-black" :
-            accent.text === "text-nb-pink"   ? "border-nb-pink   hover:bg-nb-pink   hover:text-black" :
-            accent.text === "text-nb-green"  ? "border-nb-green  hover:bg-nb-green  hover:text-black" :
-            accent.text === "text-nb-blue"   ? "border-nb-blue   hover:bg-nb-blue   hover:text-white" :
-            "border-nb-orange hover:bg-nb-orange hover:text-black"
-          }`}
-        >
-          {expanded ? "▲ HIDE" : "▼ STANDINGS"}
+        <span className="text-xs text-black/45">
+          AI threshold: <strong className="text-black">{pool.threshold}</strong>
+        </span>
+        <button type="button" onClick={onToggle} className="nb-btn-ghost text-xs py-1 px-3">
+          {expanded ? "Hide standings" : "Standings"}
         </button>
       </div>
 
       {expanded && (
-        <div className="border-t-2 border-white/20 pt-4">
-          <p className="text-xs font-black uppercase tracking-widest text-nb-muted mb-3">
-            MEMBER STANDINGS
-          </p>
+        <div className="border-t border-black/10 pt-4">
+          <p className="text-xs text-black/45 mb-3">Member standings</p>
           {sorted.length === 0 ? (
-            <p className="text-nb-muted text-sm">No members yet.</p>
+            <p className="text-black/45 text-sm">No members yet.</p>
           ) : (
             <div>
               {sorted.map((m, i) => (
@@ -191,6 +168,7 @@ function PoolCard({
           )}
         </div>
       )}
+      </div>
     </article>
   );
 }
@@ -241,9 +219,12 @@ export default function PoolsPage() {
               address: addr,
               staked: Boolean(m.staked),
               proof_url: m.proof_url != null ? String(m.proof_url) : null,
+              proof_cid: readOptionalString(m.proof_cid),
+              proof_image_cid: readOptionalString(m.proof_image_cid),
               ai_score: m.ai_score != null ? Number(m.ai_score) : null,
               peer_confirmations: Number(m.peer_confirmations ?? 0),
               shipped: Boolean(m.shipped),
+              proof_nft_id: m.proof_nft_id != null ? BigInt(String(m.proof_nft_id)) : null,
             });
           } catch { /* skip */ }
         }
@@ -278,27 +259,18 @@ export default function PoolsPage() {
   }, [pools, filterStatus, search, sort]);
 
   const STATUS_FILTERS: { key: FilterStatus; label: string }[] = [
-    { key: "all",      label: "ALL"      },
-    { key: "Active",   label: "ACTIVE"   },
-    { key: "Settling", label: "SETTLING" },
-    { key: "Settled",  label: "SETTLED"  },
+    { key: "all", label: "All" },
+    { key: "Active", label: "Active" },
+    { key: "Settling", label: "Settling" },
+    { key: "Settled", label: "Settled" },
   ];
 
   return (
     <div className="space-y-8 pb-16">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b-3 border-white pb-6">
-        <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-nb-muted mb-2">
-            ON-CHAIN ACCOUNTABILITY
-          </p>
-          <h1 className="text-4xl sm:text-5xl font-black uppercase tracking-tight text-white">
-            POOL <span className="text-nb-yellow">STANDINGS</span>
-          </h1>
-        </div>
+      <PageHeader eyebrow="On-chain accountability" title="Pool standings">
         <div className="flex gap-3">
           <Link href="/app" className="nb-btn-yellow text-xs">
-            + CREATE POOL
+            Create pool
           </Link>
           <button
             type="button"
@@ -306,24 +278,24 @@ export default function PoolsPage() {
             disabled={loading || !publicKey}
             className="nb-btn-ghost text-xs disabled:opacity-40"
           >
-            {loading ? "LOADING…" : "↺ REFRESH"}
+            {loading ? "Loading…" : "Refresh"}
           </button>
         </div>
-      </div>
+      </PageHeader>
 
       {!publicKey && (
-        <div className="nb-card-yellow p-6 text-center space-y-3">
-          <p className="font-black text-xl uppercase text-white">CONNECT WALLET TO BROWSE POOLS</p>
-          <p className="text-nb-muted text-sm">Wallet needed to simulate on-chain reads.</p>
+        <div className="nb-card p-8 text-center space-y-3">
+          <p className="text-xl font-medium text-black landing-font-heading">Connect wallet to browse pools</p>
+          <p className="text-black/55 text-sm">Wallet needed to simulate on-chain reads.</p>
           <Link href="/" className="nb-btn-yellow text-sm inline-flex">
-            GO HOME →
+            Go home
           </Link>
         </div>
       )}
 
       {error && (
-        <div className="nb-card p-4 border-nb-red" style={{ boxShadow: "4px 4px 0 #FF3B3B" }}>
-          <p className="text-nb-red font-bold text-sm">{error}</p>
+        <div className="nb-card p-4 border-red-200 bg-red-50">
+          <p className="text-red-800 text-sm">{error}</p>
         </div>
       )}
 
@@ -333,7 +305,7 @@ export default function PoolsPage() {
           {/* Search */}
           <NbInput
             className="sm:max-w-xs"
-            placeholder="SEARCH GOALS…"
+            placeholder="Search goals…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -341,21 +313,16 @@ export default function PoolsPage() {
           {/* Status pills */}
           <div className="flex flex-wrap gap-2">
             {STATUS_FILTERS.map((f) => (
-              <button
+              <FilterChip
                 key={f.key}
-                type="button"
+                active={filterStatus === f.key}
                 onClick={() => setFilterStatus(f.key)}
-                className={`text-xs font-black uppercase border-2 px-3 py-1.5 transition-all ${
-                  filterStatus === f.key
-                    ? "bg-nb-yellow text-black border-nb-yellow"
-                    : "border-white text-white hover:border-nb-yellow hover:text-nb-yellow"
-                }`}
               >
                 {f.label}
                 {f.key === "all"
                   ? ` (${pools.length})`
                   : ` (${pools.filter((p) => p.status === f.key).length})`}
-              </button>
+              </FilterChip>
             ))}
           </div>
 
@@ -365,10 +332,10 @@ export default function PoolsPage() {
             value={sort}
             onChange={(e) => setSort(e.target.value as SortKey)}
           >
-            <option value="newest">NEWEST FIRST</option>
-            <option value="deadline">DEADLINE SOONEST</option>
-            <option value="stake">HIGHEST STAKE</option>
-            <option value="members">MOST MEMBERS</option>
+            <option value="newest">Newest first</option>
+            <option value="deadline">Deadline soonest</option>
+            <option value="stake">Highest stake</option>
+            <option value="members">Most members</option>
           </select>
         </div>
       )}
@@ -388,23 +355,21 @@ export default function PoolsPage() {
         <>
           {filtered.length === 0 ? (
             <div className="nb-card p-10 text-center">
-              <p className="text-nb-muted font-bold uppercase text-lg">NO POOLS FOUND</p>
+              <p className="text-black/55 font-medium text-lg">No pools found</p>
               {pools.length === 0
-                ? <p className="text-nb-muted text-sm mt-2">No pools on-chain yet. <Link href="/app" className="text-nb-yellow underline">Create the first one.</Link></p>
-                : <p className="text-nb-muted text-sm mt-2">Try different filters.</p>
+                ? <p className="text-black/45 text-sm mt-2">No pools on-chain yet. <Link href="/app" className="text-black underline">Create the first one.</Link></p>
+                : <p className="text-black/45 text-sm mt-2">Try different filters.</p>
               }
             </div>
           ) : (
             <div className="grid gap-4 sm:grid-cols-2">
-              {filtered.map((pool, i) => {
-                const accent = CARD_ACCENTS[Number(pool.pool_id) % CARD_ACCENTS.length];
+              {filtered.map((pool) => {
                 const key = pool.pool_id.toString();
                 return (
                   <PoolCard
                     key={key}
                     pool={pool}
                     members={membersByPool[key] ?? []}
-                    accent={accent}
                     nowSec={nowSec}
                     expanded={!!expanded[key]}
                     onToggle={() =>

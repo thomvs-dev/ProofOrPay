@@ -15,6 +15,7 @@ import {
 import { TxStatus, type TxState } from "./TxStatus";
 import { NbButton } from "@/components/ui/NbButton";
 import { NbInput, NbLabel } from "@/components/ui/NbInput";
+import { IpfsUploadField } from "@/components/IpfsUploadField";
 
 type Props = { onPoolCreated?: () => void };
 
@@ -24,6 +25,7 @@ export function CreatePoolForm({ onPoolCreated }: Props) {
   const [days, setDays] = useState(7);
   const [stakeXlm, setStakeXlm] = useState(1);
   const [threshold, setThreshold] = useState(60);
+  const [coverCid, setCoverCid] = useState("");
   const [tx, setTx] = useState<TxState>({ status: "idle" });
 
   async function onSubmit(e: React.FormEvent) {
@@ -46,12 +48,14 @@ export function CreatePoolForm({ onPoolCreated }: Props) {
           u64ToScVal(deadlineSec),
           i128ToScVal(stroops),
           u32ToScVal(Math.min(100, Math.max(0, Math.floor(threshold)))),
+          stringToScVal(coverCid.trim()),
         ],
         publicKey,
         signTransaction,
       );
       setTx({ status: "success", hash });
       setGoal("");
+      setCoverCid("");
       onPoolCreated?.();
     } catch (err) {
       setTx({ status: "failed", error: err instanceof Error ? err.message : String(err) });
@@ -59,13 +63,13 @@ export function CreatePoolForm({ onPoolCreated }: Props) {
   }
 
   if (!publicKey) {
-    return <p className="text-sm text-nb-muted font-bold uppercase">CONNECT WALLET FIRST.</p>;
+    return <p className="text-sm text-black/55">Connect wallet first.</p>;
   }
 
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       <div>
-        <NbLabel htmlFor="goal">WHAT ARE YOU SHIPPING?</NbLabel>
+        <NbLabel htmlFor="goal">What are you shipping?</NbLabel>
         <textarea
           id="goal"
           required
@@ -77,9 +81,16 @@ export function CreatePoolForm({ onPoolCreated }: Props) {
         />
       </div>
 
+      <IpfsUploadField
+        label="Pool cover (IPFS)"
+        cid={coverCid}
+        onCidChange={setCoverCid}
+        hint="Optional hero image for your pool card. Set PINATA_JWT on the server for real pinning."
+      />
+
       <div className="grid gap-4 sm:grid-cols-3">
         <div>
-          <NbLabel htmlFor="days">DAYS UNTIL DEADLINE</NbLabel>
+          <NbLabel htmlFor="days">Days until deadline</NbLabel>
           <NbInput
             id="days"
             type="number"
@@ -90,7 +101,7 @@ export function CreatePoolForm({ onPoolCreated }: Props) {
           />
         </div>
         <div>
-          <NbLabel htmlFor="stake">STAKE / MEMBER (XLM)</NbLabel>
+          <NbLabel htmlFor="stake">Stake / member (XLM)</NbLabel>
           <NbInput
             id="stake"
             type="number"
@@ -101,7 +112,7 @@ export function CreatePoolForm({ onPoolCreated }: Props) {
           />
         </div>
         <div>
-          <NbLabel htmlFor="threshold">AI SCORE THRESHOLD (0–100)</NbLabel>
+          <NbLabel htmlFor="threshold">AI score threshold (0–100)</NbLabel>
           <NbInput
             id="threshold"
             type="number"
@@ -119,12 +130,12 @@ export function CreatePoolForm({ onPoolCreated }: Props) {
         loading={tx.status === "pending"}
         disabled={tx.status === "pending" || !CONTRACT_IDS.stakePool}
       >
-        {tx.status === "pending" ? "CONFIRM IN WALLET…" : "CREATE POOL ON-CHAIN →"}
+        {tx.status === "pending" ? "Confirm in wallet…" : "Create pool on-chain"}
       </NbButton>
 
       <TxStatus
         state={tx}
-        label="CREATE POOL"
+        label="Create pool"
         onDismiss={() => setTx({ status: "idle" })}
         onRetry={() => setTx({ status: "idle" })}
       />

@@ -4,7 +4,7 @@ ProofOrPay
 
 🔵 **Level 5 — Updated Resubmission**
 ( Last time i was rejected without any remarks, please consider my hardwork :) )
-**Live dApp:** https://pactprotocolstellar.vercel.app  
+**Live dApp:** [https://[](https://proof-or-pay.vercel.app/).vercel.app](https://proof-or-pay.vercel.app/)  
 **Try it & give feedback:** https://forms.gle/xaYrz9pPpga4Gvpr8
 
 **Pitch deck & video demo:** [ProofOrPay — Google Drive](https://drive.google.com/drive/folders/18XRgBNNkfMLaD6nM15sa-C0Cp_c3cmaD?usp=sharing) (pitch deck + product walkthrough video)
@@ -26,14 +26,16 @@ This resubmission addresses the prior review feedback and submission requirement
 Thanks @fahmmin for the fixes (PR 1). More community contributions welcome.
 
 ## User feedback summary
+So the combined summary is:
 
-| Metric | Result |
-|--------|--------|
-| Total responses (round 1) | 25 |
-| Average final rating | ~4.8 / 5 |
-| “Yes, completely” satisfied | 22 / 25 |
-| Most cited strengths | UI design, speed, innovation, clarity, wallet integration, ease of onboarding |
-| Common feature asks | Mobile UX, notifications, dark mode, analytics export, help guide |
+Metric	Result
+Total responses	42
+Average final rating	≈ 4.83 / 5
+"Yes, completely" satisfied	37 / 42 (88.1%)
+"Mostly (needs improvement)"	5 / 42 (11.9%)
+Most cited strengths	UI design, Speed & Efficiency, Innovation, Clarity/Transparency, Stellar ecosystem integration, Ease of Onboarding
+Common feature requests	Better onboarding/tutorials, mobile-friendly interface, push notifications, transaction history dashboard, dark mode, analytics/export, multi-language support, help/documentation, QR payments, portfolio tracking, cross-chain support, recurring payments, dispute resolution, escrow reminders
+Common issues reported	Very few issues overall; occasional slow wallet connection, otherwise users generally reported no major bugs
 
 Full spreadsheet: https://docs.google.com/spreadsheets/d/1KhlwRZR5CFgg0mgbiugZdNBsWBBLp1huaQeiJMlVY-Y/edit?usp=sharing
 
@@ -68,7 +70,29 @@ https://docs.google.com/spreadsheets/d/1KhlwRZR5CFgg0mgbiugZdNBsWBBLp1huaQeiJMlV
 | 2026-04-28 | Soumil                   | soumil24101@iiitnr.edu.in     | 5      | Yes, completely                                | Portfolio tracker, QR payments                                                                   | No issues                                          | UI Design, Speed, Innovation, Clarity, Integration, Onboarding                                                      | 5            |
 | 2026-04-29 | Ashank                   | ashank24100@iiitnr.edu.in     | 5      | Yes, completely                                | Cross-chain, recurring payments                                                                  | No issues                                          | UI Design, Speed, Innovation, Clarity, Integration, Onboarding                                                      | 5            |
 | 2026-04-29 | Dauoo                    | dauoo24100@iiitnr.edu.in      | 5      | Yes, completely                                | Help guide, alerts                                                                               | No issues                                          | UI Design, Speed, Innovation, Clarity, Integration, Onboarding                                                      | 5            |
-| 2026-04-29 | Prashil                  | prashil24100@iiitnr.edu.in    | 5      | Yes, completely                                | Multi-currency, dark mode                                                                        | No issues                                          | UI Design, Speed, Innovation, Clarity, Integration, Onboarding                                                      | 5            |
+| 2026-04-29 | Prashil                  | prashil24100@iiitnr.edu.in    | 5      | Yes, completely                                | Multi-currency, dark mode                                                                        | No issues                                          | UI Design, Speed, Innovation, Clarity, Integration, Onboarding     
+| 5            |
+
+
+Date	Name	Email	Rating	Satisfaction	Suggestions / Missing Features	Bugs / Issues	Key Strengths	Final Rating
+2026-06-24	Sooraj K	soorajknair666@gmail.com	5	Yes, completely	—	—	UI Design, Speed, Innovation	5
+2026-06-24	Rinjan Lal K. L	rinjanlal13@gmail.com	5	Yes, completely	—	—	UI Design, Stellar Integration, Ease of Onboarding	5
+2026-06-24	Asrith G S	asrithgsadu103@gmail.com	5	Yes, completely	—	—	UI Design, Speed, Stellar Integration	5
+2026-06-24	Ana Falak	anafalak008@gmail.com	5	Yes, completely	—	—	UI Design, Speed, Innovation	5
+2026-06-24	Hina Hanan	hinahanan2003@gmail.com	5	Yes, completely	—	—	UI Design, Speed, Innovation	5
+2026-06-24	Abdul Vajid K	avajid133@gmail.com	5	Yes, completely	—	—	UI Design, Speed, Innovation	5
+2026-06-24	Shamlal	shamlalpbm786@gmail.com	5	Yes, completely	—	—	UI Design, Speed, Stellar Integration	5
+2026-06-28	Robert Reji	robertreji2005@gmail.com	5	Yes, completely	—	—	UI Design, Speed, Innovation	5
+2026-06-28	Adhil Muhammed K	adhilmhdk72@gmail.com	5	Yes, completely	—	—	UI Design, Speed, Innovation	5
+2026-06-28	Aysha Lina	ayshalina729@gmail.com	5	Yes, completely	—	—	UI Design, Speed, Innovation	5
+2026-06-29	Alan John	23cs240alan@ug.cusat.ac.in	4	Mostly (needs improvement)	Mobile-friendly interface, push notifications, transaction history dashboard, multi-language support, better documentation, tutorials, dispute resolution, escrow timeout reminders, guided onboarding	Wallet connection occasionally slow	Innovation, Clarity, Stellar Integration	4
+2026-06-29	Arniteja Vijay	arnitejavijay@gmail.com	5	Yes, completely	—	—	—	5
+2026-06-29	Anwin A V	avanwin174@gmail.com	5	Yes, completely	—	—	—	5
+2026-06-29	Arjun C	arjunmundamani@gmail.com	5	Yes, completely	—	—	—	5
+2026-06-30	Mohammed Anees	pcanees26@gmail.com	5	Yes, completely	—	—	—	5
+2026-06-30	Devanand MM	devanandmm007@gmail.com	5	Yes, completely	—	—	—	5
+2026-06-30	Anel Eldho	iamaneleldho@gmail.com	4	Mostly (needs improvement)	Detailed onboarding/tutorial, multi-language support, improved onboarding flow
+
 
 Stellar Soroban implementation of the [ProofOrPay](../pact_protocol_spec.md): accountability stake pools, AI-assisted proof scoring, and optional reputation ledger.
 

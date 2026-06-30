@@ -5,6 +5,7 @@ import { useWallet } from "./WalletConnect";
 import { CONTRACT_IDS, NETWORK } from "@/lib/constants";
 import { addressToScVal, buildAndSubmitTx, u64ToScVal } from "@/lib/stellar";
 import { TxStatus, type TxState } from "./TxStatus";
+import { NbButton } from "@/components/ui/NbButton";
 
 export function StakeForm({ poolId, onSuccess }: { poolId: bigint; onSuccess?: () => void }) {
   const { publicKey, signTransaction } = useWallet();
@@ -34,16 +35,19 @@ export function StakeForm({ poolId, onSuccess }: { poolId: bigint; onSuccess?: (
 
   return (
     <div className="space-y-3">
-      <button
+      <NbButton
         type="button"
+        variant="yellow"
         onClick={onStake}
+        loading={tx.status === "pending"}
         disabled={tx.status === "pending" || !CONTRACT_IDS.stakePool}
-        className="nb-btn-yellow disabled:opacity-50"
       >
         {tx.status === "pending" ? "CONFIRM IN WALLET…" : `STAKE ON POOL #${poolId.toString()} →`}
-      </button>
+      </NbButton>
       <p className="text-xs text-nb-muted font-mono">{NETWORK.networkId}</p>
-      <TxStatus state={tx} label="STAKE" />
+      <TxStatus
+        state={tx}
+        label="STAKE"      />
     </div>
   );
 }

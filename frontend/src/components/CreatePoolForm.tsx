@@ -13,6 +13,8 @@ import {
   xlmToStroops,
 } from "@/lib/stellar";
 import { TxStatus, type TxState } from "./TxStatus";
+import { NbButton } from "@/components/ui/NbButton";
+import { NbInput, NbLabel } from "@/components/ui/NbInput";
 
 type Props = { onPoolCreated?: () => void };
 
@@ -63,8 +65,9 @@ export function CreatePoolForm({ onPoolCreated }: Props) {
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       <div>
-        <label className="nb-label">WHAT ARE YOU SHIPPING?</label>
+        <NbLabel htmlFor="goal">WHAT ARE YOU SHIPPING?</NbLabel>
         <textarea
+          id="goal"
           required
           rows={3}
           className="nb-input resize-none"
@@ -76,49 +79,52 @@ export function CreatePoolForm({ onPoolCreated }: Props) {
 
       <div className="grid gap-4 sm:grid-cols-3">
         <div>
-          <label className="nb-label">DAYS UNTIL DEADLINE</label>
-          <input
+          <NbLabel htmlFor="days">DAYS UNTIL DEADLINE</NbLabel>
+          <NbInput
+            id="days"
             type="number"
             min={1}
             max={365}
             value={days}
             onChange={(e) => setDays(Number(e.target.value) || 1)}
-            className="nb-input"
           />
         </div>
         <div>
-          <label className="nb-label">STAKE / MEMBER (XLM)</label>
-          <input
+          <NbLabel htmlFor="stake">STAKE / MEMBER (XLM)</NbLabel>
+          <NbInput
+            id="stake"
             type="number"
             min={0.0000001}
             step={0.1}
             value={stakeXlm}
             onChange={(e) => setStakeXlm(Number(e.target.value))}
-            className="nb-input"
           />
         </div>
         <div>
-          <label className="nb-label">AI SCORE THRESHOLD (0–100)</label>
-          <input
+          <NbLabel htmlFor="threshold">AI SCORE THRESHOLD (0–100)</NbLabel>
+          <NbInput
+            id="threshold"
             type="number"
             min={0}
             max={100}
             value={threshold}
             onChange={(e) => setThreshold(Number(e.target.value))}
-            className="nb-input"
           />
         </div>
       </div>
 
-      <button
+      <NbButton
         type="submit"
+        variant="yellow"
+        loading={tx.status === "pending"}
         disabled={tx.status === "pending" || !CONTRACT_IDS.stakePool}
-        className="nb-btn-yellow disabled:opacity-50"
       >
         {tx.status === "pending" ? "CONFIRM IN WALLET…" : "CREATE POOL ON-CHAIN →"}
-      </button>
+      </NbButton>
 
-      <TxStatus state={tx} label="CREATE POOL" />
+      <TxStatus
+        state={tx}
+        label="CREATE POOL"      />
     </form>
   );
 }

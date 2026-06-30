@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useWallet } from "@/components/WalletConnect";
 import { CONTRACT_IDS } from "@/lib/constants";
 import { simulateTx, addressToScVal, u64ToScVal } from "@/lib/stellar";
+import { NbInput } from "@/components/ui/NbInput";
 import type { MemberView, PoolView, PoolStatus } from "@/types/pact";
 
 function mapPool(raw: unknown): PoolView {
@@ -329,8 +330,8 @@ export default function PoolsPage() {
       {publicKey && (
         <div className="flex flex-col sm:flex-row gap-3">
           {/* Search */}
-          <input
-            className="nb-input sm:max-w-xs"
+          <NbInput
+            className="sm:max-w-xs"
             placeholder="SEARCH GOALS…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -373,8 +374,7 @@ export default function PoolsPage() {
 
       {/* Loading skeleton */}
       {loading && (
-        <div className="grid gap-4 sm:grid-cols-2">
-          {[1, 2, 3, 4].map((n) => (
+        <div className="grid gap-4 sm:grid-cols-2">          {[1, 2, 3, 4].map((n) => (
             <div key={n} className="nb-card p-5 space-y-3 animate-pulse">
               <div className="h-4 bg-white/10 w-1/3" />
               <div className="h-6 bg-white/10 w-3/4" />

@@ -3,6 +3,10 @@
   "private": true,
   "scripts": {
     "keypair": "node frontend/scripts/print-keypair.mjs",
-    "verify:testnet": "npm run verify:testnet --prefix frontend"
+    "verify:testnet": "npm run verify:testnet --prefix frontend",
+    "pitchdeck": "npm install --prefix scripts && node scripts/generate-pitchdeck.mjs"
+  },
+  "dependencies": {
+    "pptxgenjs": "^4.0.1"
   }
 }

@@ -3,12 +3,13 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT/contracts"
 
-echo "Building stake_pool and reputation_ledger..."
-soroban contract build --manifest-path stake_pool/Cargo.toml
-soroban contract build --manifest-path reputation_ledger/Cargo.toml
+echo "Building reputation_ledger, proof_badge, and stake_pool..."
+stellar contract build --manifest-path proof_badge/Cargo.toml
+stellar contract build
 
 echo "WASM outputs:"
-echo "  stake_pool:       target/wasm32-unknown-unknown/release/stake_pool.wasm"
-echo "  reputation_ledger: target/wasm32-unknown-unknown/release/reputation_ledger.wasm"
+echo "  reputation_ledger: target/wasm32v1-none/release/reputation_ledger.wasm"
+echo "  proof_badge:       target/wasm32v1-none/release/proof_badge.wasm"
+echo "  stake_pool:        target/wasm32v1-none/release/stake_pool.wasm"
 echo ""
-echo "Deploy with soroban contract deploy (see docs/PROTOCOL.md and your pact protocol spec)."
+echo "Deploy with stellar contract deploy (see README and docs/RUNBOOK.md)."

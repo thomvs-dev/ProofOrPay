@@ -30,7 +30,7 @@ export function StakeForm({ poolId, onSuccess }: { poolId: bigint; onSuccess?: (
   }
 
   if (!publicKey) {
-    return <p className="text-sm text-nb-muted font-bold uppercase">CONNECT WALLET TO STAKE.</p>;
+    return <p className="text-sm text-black/55">Connect wallet to stake.</p>;
   }
 
   return (
@@ -42,12 +42,12 @@ export function StakeForm({ poolId, onSuccess }: { poolId: bigint; onSuccess?: (
         loading={tx.status === "pending"}
         disabled={tx.status === "pending" || !CONTRACT_IDS.stakePool}
       >
-        {tx.status === "pending" ? "CONFIRM IN WALLET…" : `STAKE ON POOL #${poolId.toString()} →`}
+        {tx.status === "pending" ? "Confirm in wallet…" : `Stake on pool #${poolId.toString()}`}
       </NbButton>
-      <p className="text-xs text-nb-muted font-mono">{NETWORK.networkId}</p>
+      <p className="text-xs text-black/45 font-mono">{NETWORK.networkId}</p>
       <TxStatus
         state={tx}
-        label="STAKE"
+        label="Stake"
         onDismiss={() => setTx({ status: "idle" })}
         onRetry={() => setTx({ status: "idle" })}
       />

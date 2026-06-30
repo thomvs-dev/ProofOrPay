@@ -41,22 +41,22 @@ export function ConfirmPeerForm({
 
   if (!publicKey) return null;
   if (!memberAddresses.includes(publicKey)) {
-    return <p className="text-sm text-nb-muted font-bold uppercase">STAKE FIRST TO VOUCH.</p>;
+    return <p className="text-sm text-black/55">Stake first to vouch.</p>;
   }
   if (others.length === 0) {
-    return <p className="text-sm text-nb-muted font-bold uppercase">NEED OTHER MEMBERS TO VOUCH.</p>;
+    return <p className="text-sm text-black/55">Need other members to vouch.</p>;
   }
 
   return (
     <div className="space-y-3">
       <div>
-        <label className="nb-label">CONFIRM A MEMBER SHIPPED</label>
+        <label className="nb-label">Confirm a member shipped</label>
         <select
           className="nb-input cursor-pointer"
           value={confirmee}
           onChange={(e) => setConfirmee(e.target.value)}
         >
-          <option value="">CHOOSE MEMBER…</option>
+          <option value="">Choose member…</option>
           {others.map((a) => (
             <option key={a} value={a}>
               {a.slice(0, 8)}…{a.slice(-4)}
@@ -68,11 +68,11 @@ export function ConfirmPeerForm({
         type="button"
         onClick={onConfirm}
         disabled={!confirmee || tx.status === "pending"}
-        className="nb-btn-blue disabled:opacity-50"
+        className="nb-btn-yellow disabled:opacity-50"
       >
-        {tx.status === "pending" ? "CONFIRM IN WALLET…" : "VOUCH FOR PEER →"}
+        {tx.status === "pending" ? "Confirm in wallet…" : "Vouch for peer"}
       </button>
-      <TxStatus state={tx} label="PEER VOUCH" />
+      <TxStatus state={tx} label="Peer vouch" />
     </div>
   );
 }

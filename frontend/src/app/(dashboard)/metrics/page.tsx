@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import { CONTRACT_IDS } from "@/lib/constants";
 import { NbCard } from "@/components/ui/NbCard";
 import { NbButton } from "@/components/ui/NbButton";
+import { PageHeader } from "@/components/ui/PageHeader";
 import { PoolCardSkeleton } from "@/components/ui/NbSkeleton";
 
 type ApiMetrics = {
@@ -40,16 +41,10 @@ export default function MetricsPage() {
 
   return (
     <div className="space-y-8 pb-16">
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b-3 border-white pb-6">
-        <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-nb-muted mb-2">ON-CHAIN STATS</p>
-          <h1 className="text-4xl sm:text-5xl font-black uppercase tracking-tight text-white">
-            PROTOCOL <span className="text-nb-green">METRICS</span>
-          </h1>
-        </div>
+      <PageHeader eyebrow="On-chain stats" title="Protocol metrics">
         <div className="flex gap-3 self-start sm:self-auto">
           <NbButton variant="ghost" href="/pools" className="text-xs">
-            ← POOLS
+            Pools
           </NbButton>
           <NbButton
             variant="ghost"
@@ -58,10 +53,10 @@ export default function MetricsPage() {
             loading={loading}
             disabled={loading}
           >
-            ↺ REFRESH
+            Refresh
           </NbButton>
         </div>
-      </div>
+      </PageHeader>
 
       {loading && (
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -74,14 +69,14 @@ export default function MetricsPage() {
       {!loading && data && (
         <>
           {!data.ok && (
-            <NbCard accent="orange" className="p-6 space-y-2">
-              <p className="font-black text-lg uppercase text-white">UNAVAILABLE</p>
-              <p className="text-nb-muted text-sm">{data.error ?? data.message ?? "API error"}</p>
+            <NbCard className="p-6 space-y-2">
+              <p className="font-medium text-lg text-black landing-font-heading">Unavailable</p>
+              <p className="text-black/55 text-sm">{data.error ?? data.message ?? "API error"}</p>
               <NbButton variant="orange" className="text-xs mt-2" onClick={load}>
-                RETRY
+                Retry
               </NbButton>
               {!data.configured && (
-                <p className="text-nb-orange text-xs font-mono mt-2">
+                <p className="text-black/45 text-xs font-mono mt-2">
                   Set METRICS_SIMULATION_PUBLIC_KEY (funded testnet G… account) in Vercel env vars to enable server-side reads.
                 </p>
               )}
@@ -91,37 +86,33 @@ export default function MetricsPage() {
           {data.ok && (
             <>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                <NbCard accent="green" className="p-5">
-                  <p className="text-xs font-bold uppercase tracking-widest text-nb-muted mb-1">POOLS</p>
-                  <p className="text-4xl font-black text-nb-green">{data.pool_count ?? 0}</p>
+                <NbCard className="p-5">
+                  <p className="text-xs text-black/45 mb-1">Pools</p>
+                  <p className="text-4xl font-medium text-black landing-font-heading">{data.pool_count ?? 0}</p>
                 </NbCard>
-                <NbCard accent="yellow" className="p-5">
-                  <p className="text-xs font-bold uppercase tracking-widest text-nb-muted mb-1">MEMBERS</p>
-                  <p className="text-4xl font-black text-nb-yellow">{data.members_total ?? 0}</p>
+                <NbCard className="p-5">
+                  <p className="text-xs text-black/45 mb-1">Members</p>
+                  <p className="text-4xl font-medium text-black landing-font-heading">{data.members_total ?? 0}</p>
                 </NbCard>
-                <NbCard accent="pink" className="p-5 col-span-2 sm:col-span-1">
-                  <p className="text-xs font-bold uppercase tracking-widest text-nb-muted mb-1">LEADERBOARD</p>
-                  <p className="text-4xl font-black text-nb-pink">{data.leaderboard_entries ?? 0}</p>
+                <NbCard className="p-5 col-span-2 sm:col-span-1">
+                  <p className="text-xs text-black/45 mb-1">Leaderboard</p>
+                  <p className="text-4xl font-medium text-black landing-font-heading">{data.leaderboard_entries ?? 0}</p>
                 </NbCard>
               </div>
 
               {data.pools && data.pools.length > 0 && (
                 <NbCard className="p-5 space-y-3">
-                  <p className="text-xs font-black uppercase tracking-widest text-nb-muted">POOLS BREAKDOWN</p>
+                  <p className="text-xs text-black/45">Pools breakdown</p>
                   <div className="space-y-2">
                     {data.pools.map((p) => (
                       <div
                         key={p.id}
-                        className="flex items-center justify-between border border-white/20 px-3 py-2"
+                        className="flex items-center justify-between border border-black/10 rounded-lg px-3 py-2"
                       >
-                        <span className="font-mono text-sm text-white">POOL #{p.id}</span>
-                        <div className="flex gap-3 text-xs">
-                          <span className="text-nb-muted">{p.members} MEMBERS</span>
-                          <span className={`font-bold uppercase ${
-                            p.status === "Active" ? "text-nb-yellow" :
-                            p.status === "Settling" ? "text-nb-orange" :
-                            "text-nb-green"
-                          }`}>{p.status}</span>
+                        <span className="font-mono text-sm text-black">Pool #{p.id}</span>
+                        <div className="flex gap-3 text-xs text-black/55">
+                          <span>{p.members} members</span>
+                          <span className="font-medium text-black">{p.status}</span>
                         </div>
                       </div>
                     ))}
@@ -134,8 +125,8 @@ export default function MetricsPage() {
       )}
 
       <NbCard className="p-4">
-        <p className="text-xs font-bold uppercase tracking-widest text-nb-muted mb-1">CONTRACT</p>
-        <p className="font-mono text-xs text-white break-all">
+        <p className="text-xs text-black/45 mb-1">Contract</p>
+        <p className="font-mono text-xs text-black break-all">
           {CONTRACT_IDS.stakePool || "(unset)"}
         </p>
       </NbCard>

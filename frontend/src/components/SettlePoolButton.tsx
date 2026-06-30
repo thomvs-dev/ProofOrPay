@@ -47,11 +47,11 @@ export function SettlePoolButton({
 
   if (!canSettle) {
     return (
-      <p className="text-xs text-nb-muted font-bold uppercase">
+      <p className="text-xs text-black/55">
         {!ended
-          ? "SETTLEMENT UNLOCKS AFTER DEADLINE."
+          ? "Settlement unlocks after deadline."
           : status !== "Active"
-          ? "POOL ALREADY SETTLED."
+          ? "Pool already settled."
           : null}
       </p>
     );
@@ -59,9 +59,9 @@ export function SettlePoolButton({
 
   return (
     <div className="space-y-3">
-      <div className="border-3 border-nb-orange p-3" style={{ boxShadow: "3px 3px 0 #FF6B35" }}>
-        <p className="text-nb-orange font-black uppercase text-sm">⚡ DEADLINE PASSED</p>
-        <p className="text-nb-muted text-xs mt-1">
+      <div className="nb-card p-3 border-amber-200 bg-amber-50">
+        <p className="text-amber-900 font-medium text-sm">Deadline passed</p>
+        <p className="text-amber-800/80 text-xs mt-1">
           Anyone can settle. Winners get paid, reputation updates.
         </p>
       </div>
@@ -69,11 +69,11 @@ export function SettlePoolButton({
         type="button"
         onClick={onSettle}
         disabled={tx.status === "pending"}
-        className="nb-btn-orange disabled:opacity-50"
+        className="nb-btn-yellow disabled:opacity-50"
       >
-        {tx.status === "pending" ? "CONFIRM IN WALLET…" : "SETTLE POOL →"}
+        {tx.status === "pending" ? "Confirm in wallet…" : "Settle pool"}
       </button>
-      <TxStatus state={tx} label="SETTLE" />
+      <TxStatus state={tx} label="Settle" />
     </div>
   );
 }

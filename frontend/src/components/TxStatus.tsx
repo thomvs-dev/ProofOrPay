@@ -13,7 +13,7 @@ const explorer = (hash: string) =>
 
 export function TxStatus({
   state,
-  label = "TX",
+  label = "Transaction",
   onDismiss,
   onRetry,
 }: {
@@ -30,43 +30,31 @@ export function TxStatus({
 
   if (state.status === "idle") return null;
 
+  const styles =
+    state.status === "pending"
+      ? "border-amber-200 bg-amber-50"
+      : state.status === "success"
+        ? "border-emerald-200 bg-emerald-50"
+        : "border-red-200 bg-red-50";
+
   return (
-    <div
-      className={`border-3 p-3 text-sm ${
-        state.status === "pending"
-          ? "border-nb-yellow bg-nb-card"
-          : state.status === "success"
-            ? "border-nb-green bg-nb-card"
-            : "border-nb-red bg-nb-card"
-      }`}
-      style={{
-        boxShadow:
-          state.status === "pending"
-            ? "3px 3px 0 #FFE500"
-            : state.status === "success"
-              ? "3px 3px 0 #00FF94"
-              : "3px 3px 0 #FF3B3B",
-      }}
-      role="status"
-    >
-      <p className="text-xs font-black uppercase tracking-widest text-nb-muted mb-1">
-        {label}
-      </p>
+    <div className={`nb-card p-3 text-sm ${styles}`} role="status">
+      <p className="text-xs text-black/45 mb-1">{label}</p>
       {state.status === "pending" && (
-        <div className="flex items-center gap-2 text-nb-yellow font-bold uppercase text-xs">
-          <span className="inline-block h-3 w-3 animate-spin rounded-full border-2 border-nb-yellow border-t-transparent" />
-          SUBMITTING…
+        <div className="flex items-center gap-2 text-black/70 text-xs">
+          <span className="inline-block h-3 w-3 animate-spin rounded-full border-2 border-black/30 border-t-transparent" />
+          Submitting…
         </div>
       )}
       {state.status === "success" && (
-        <div className="text-nb-green font-black uppercase text-xs space-y-1">
-          <p>✓ SUCCESS</p>
+        <div className="text-emerald-800 text-xs space-y-1">
+          <p className="font-medium">Success</p>
           {state.hash && (
             <a
               href={explorer(state.hash)}
               target="_blank"
               rel="noreferrer"
-              className="underline font-mono normal-case block"
+              className="underline font-mono block text-black/70"
             >
               View on Stellar Expert →
             </a>
@@ -75,15 +63,12 @@ export function TxStatus({
       )}
       {state.status === "failed" && (
         <div className="space-y-2">
-          <div className="text-nb-red font-bold uppercase text-xs flex items-start gap-2">
-            <span>✕</span>
-            <span className="normal-case font-normal">{state.error ?? "Failed"}</span>
-          </div>
+          <p className="text-red-800 text-xs">{state.error ?? "Failed"}</p>
           {onRetry && (
             <button
               type="button"
               onClick={onRetry}
-              className="text-xs font-black uppercase text-nb-yellow underline"
+              className="text-xs text-black underline"
             >
               Try again
             </button>

@@ -9,7 +9,6 @@ import React, {
 } from "react";
 import { createWalletKit } from "@/lib/wallets";
 import { ERRORS } from "@/lib/errors";
-import { NbButton } from "@/components/ui/NbButton";
 
 const FAUCET =
   "https://developers.stellar.org/docs/fundamentals-and-concepts/testnet-and-pubnet";
@@ -106,22 +105,19 @@ export function WalletBanner() {
   const isWallet = connectError === ERRORS.WALLET_NOT_FOUND;
   return (
     <div
-      className={`mb-4 border-3 p-4 text-sm font-bold ${
-        isWallet
-          ? "border-nb-orange bg-nb-card text-nb-orange"
-          : "border-nb-red bg-nb-card text-nb-red"
+      className={`mb-4 nb-card p-4 text-sm ${
+        isWallet ? "border-amber-200 bg-amber-50 text-amber-900" : "border-red-200 bg-red-50 text-red-900"
       }`}
-      style={{ boxShadow: isWallet ? "4px 4px 0 #FF6B35" : "4px 4px 0 #FF3B3B" }}
     >
       {connectError}
       {isWallet && (
-        <span className="block mt-2 font-normal text-nb-muted">
+        <span className="block mt-2 font-normal text-black/55">
           Install{" "}
-          <a className="text-nb-yellow underline" href="https://www.freighter.app/" target="_blank" rel="noreferrer">
+          <a className="underline text-black" href="https://www.freighter.app/" target="_blank" rel="noreferrer">
             Freighter
           </a>{" "}
           or{" "}
-          <a className="text-nb-yellow underline" href="https://xbull.app/" target="_blank" rel="noreferrer">
+          <a className="underline text-black" href="https://xbull.app/" target="_blank" rel="noreferrer">
             xBull
           </a>
           .
@@ -137,32 +133,31 @@ export default function WalletConnect() {
   if (isConnected && publicKey) {
     const short = `${publicKey.slice(0, 6)}…${publicKey.slice(-4)}`;
     return (
-      <div className="flex items-center gap-2" title={publicKey}>
-        <span className="text-xs font-mono text-nb-muted hidden sm:block bg-white/5 px-2 py-1 border border-white/20">
+      <div className="flex items-center gap-2">
+        <span className="text-xs font-mono text-black/50 hidden sm:block bg-black/5 px-2 py-1 rounded-full border border-black/10">
           {short}
         </span>
         <button
           type="button"
           onClick={disconnect}
-          className="text-xs font-black uppercase border-2 border-white px-3 py-1.5 text-white hover:border-nb-red hover:text-nb-red transition-all"
+          className="text-xs rounded-full border border-black/10 px-3 py-1.5 text-black hover:bg-black hover:text-white transition-colors landing-font-body"
           title="Disconnect wallet"
         >
-          DISCONNECT
+          Disconnect
         </button>
       </div>
     );
   }
 
   return (
-    <NbButton
-      variant="yellow"
+    <button
+      type="button"
       onClick={connect}
       disabled={isConnecting}
-      loading={isConnecting}
-      className="text-xs"
+      className="nb-btn-yellow text-xs disabled:opacity-50"
     >
-      {isConnecting ? "CONNECTING…" : "CONNECT WALLET"}
-    </NbButton>
+      {isConnecting ? "Connecting…" : "Connect wallet"}
+    </button>
   );
 }
 
@@ -175,14 +170,14 @@ export function BalanceHint({
 }) {
   if (currentStroops >= requiredStroops) return null;
   return (
-    <div className="border-3 border-nb-red p-3 text-sm" style={{ boxShadow: "3px 3px 0 #FF3B3B" }}>
-      <p className="font-black text-nb-red uppercase">{ERRORS.INSUFFICIENT_BALANCE}</p>
-      <p className="mt-1 text-nb-muted font-mono text-xs">
+    <div className="nb-card p-3 text-sm border-red-200 bg-red-50">
+      <p className="font-medium text-red-900">{ERRORS.INSUFFICIENT_BALANCE}</p>
+      <p className="mt-1 text-black/55 font-mono text-xs">
         Balance: {(Number(currentStroops) / 1e7).toFixed(2)} XLM — need:{" "}
         {(Number(requiredStroops) / 1e7).toFixed(2)} XLM
       </p>
-      <a href={FAUCET} className="mt-2 inline-block text-nb-yellow underline font-bold text-xs" target="_blank" rel="noreferrer">
-        GET TESTNET XLM →
+      <a href={FAUCET} className="mt-2 inline-block text-black underline text-xs" target="_blank" rel="noreferrer">
+        Get testnet XLM →
       </a>
     </div>
   );

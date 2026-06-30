@@ -30,7 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href="https://db.onlinewebfonts.com/c/1aa3377e489837a26d019bba501e779d?family=HelveticaNowDisplayW01-Rg"
         />
       </head>
-      <body className="min-h-screen bg-nb-bg text-nb-white">
+      <body className="min-h-screen bg-pop-bg text-pop-text landing-font-body antialiased">
         <WalletProvider>
           <ToastProvider>{children}</ToastProvider>
         </WalletProvider>

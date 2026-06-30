@@ -6,32 +6,26 @@ import { useWallet } from "@/components/WalletConnect";
 const STEPS = [
   {
     n: "01",
-    color: "nb-card-yellow",
-    badge: "text-nb-yellow",
-    title: "CREATE OR JOIN",
+    title: "Create or join",
     body: "Connect a Stellar wallet. Create a pool with a goal, deadline, and stake — or join an existing one.",
   },
   {
     n: "02",
-    color: "nb-card-pink",
-    badge: "text-nb-pink",
-    title: "PROVE & SCORE",
+    title: "Prove & score",
     body: "Submit a link to your work. An AI judge scores it on-chain. No humans, no bias, no excuses.",
   },
   {
     n: "03",
-    color: "nb-card-green",
-    badge: "text-nb-green",
-    title: "PEERS & SETTLE",
+    title: "Peers & settle",
     body: "Members vouch for each other. After the deadline, anyone triggers settlement — stakes flow to winners.",
   },
 ];
 
 const STATS = [
-  { label: "Network", value: "Testnet", color: "text-nb-yellow" },
-  { label: "Chain", value: "Soroban", color: "text-nb-pink" },
-  { label: "Judge", value: "AI + Peers", color: "text-nb-green" },
-  { label: "Custody", value: "Non-custodial", color: "text-nb-orange" },
+  { label: "Network", value: "Testnet" },
+  { label: "Chain", value: "Soroban" },
+  { label: "Judge", value: "AI + Peers" },
+  { label: "Custody", value: "Non-custodial" },
 ];
 
 export function HowItWorksSection() {
@@ -40,78 +34,61 @@ export function HowItWorksSection() {
   return (
     <section
       id="how-it-works"
-      className="relative z-[1] bg-nb-bg text-nb-white py-20 px-5 sm:px-8 md:px-10"
+      className="relative z-[1] bg-pop-bg text-pop-text py-20 px-5 sm:px-8 md:px-10 border-t border-black/5"
     >
       <div className="max-w-6xl mx-auto space-y-16">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {STATS.map((s) => (
             <div key={s.label} className="nb-card p-4">
-              <p className="text-xs font-bold uppercase tracking-widest text-nb-muted mb-1">
-                {s.label}
-              </p>
-              <p className={`text-lg font-black uppercase ${s.color}`}>{s.value}</p>
+              <p className="text-xs text-black/45 mb-1">{s.label}</p>
+              <p className="text-lg font-medium text-black landing-font-heading">{s.value}</p>
             </div>
           ))}
         </div>
 
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-nb-muted mb-6">
-            HOW IT WORKS
-          </p>
+          <p className="pop-page-eyebrow">How it works</p>
+          <h2 className="pop-page-title mb-8">Three steps to ship on-chain</h2>
           <div className="grid gap-4 sm:grid-cols-3">
             {STEPS.map((s) => (
-              <div key={s.n} className={`${s.color} p-6 space-y-4`}>
-                <span className={`text-4xl font-black ${s.badge}`}>{s.n}</span>
-                <h3 className="text-xl font-black uppercase tracking-tight text-white">
-                  {s.title}
-                </h3>
-                <p className="text-sm text-nb-muted leading-relaxed">{s.body}</p>
+              <div key={s.n} className="nb-card p-6 space-y-3">
+                <span className="text-sm text-black/40 landing-font-heading">{s.n}</span>
+                <h3 className="text-lg font-medium text-black landing-font-heading">{s.title}</h3>
+                <p className="text-sm text-black/55 leading-relaxed">{s.body}</p>
               </div>
             ))}
           </div>
         </div>
 
         <section className="grid gap-4 sm:grid-cols-2">
-          <div className="nb-card-pink p-6 space-y-3">
-            <p className="text-nb-pink font-black uppercase text-sm tracking-widest">
-              AI VERIFICATION
+          <div className="nb-card p-6 space-y-3">
+            <p className="text-xs text-black/45 uppercase tracking-wide">AI verification</p>
+            <p className="text-2xl font-medium text-black landing-font-heading leading-tight">
+              No human bias
             </p>
-            <p className="text-3xl font-black text-white uppercase leading-tight">
-              NO HUMAN
-              <br />
-              BIAS
-            </p>
-            <p className="text-nb-muted text-sm">
+            <p className="text-black/55 text-sm">
               Scores are computed by an AI model, recorded on-chain by a verifier key.
               Tamper-proof accountability.
             </p>
           </div>
-          <div className="nb-card-green p-6 space-y-3">
-            <p className="text-nb-green font-black uppercase text-sm tracking-widest">
-              PEER VOUCHING
+          <div className="nb-card p-6 space-y-3">
+            <p className="text-xs text-black/45 uppercase tracking-wide">Peer vouching</p>
+            <p className="text-2xl font-medium text-black landing-font-heading leading-tight">
+              Your crew decides
             </p>
-            <p className="text-3xl font-black text-white uppercase leading-tight">
-              YOUR CREW
-              <br />
-              DECIDES
-            </p>
-            <p className="text-nb-muted text-sm">
+            <p className="text-black/55 text-sm">
               Members confirm each other. Combined with AI scores and thresholds,
               the contract makes final settlement calls automatically.
             </p>
           </div>
         </section>
 
-        <section className="nb-card-yellow p-8 sm:p-12">
+        <section className="nb-card p-8 sm:p-12">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
             <div>
-              <p className="text-nb-yellow text-xs font-bold uppercase tracking-widest mb-2">
-                READY?
-              </p>
-              <p className="text-4xl font-black text-white uppercase leading-tight">
-                PUT YOUR XLM
-                <br />
-                WHERE YOUR MOUTH IS.
+              <p className="pop-page-eyebrow">Ready?</p>
+              <p className="text-2xl sm:text-3xl font-medium text-black landing-font-heading leading-tight">
+                Put your XLM where your mouth is.
               </p>
             </div>
             <div className="flex flex-col gap-3 min-w-fit">
@@ -122,15 +99,15 @@ export function HowItWorksSection() {
                   disabled={isConnecting}
                   className="nb-btn-yellow text-sm whitespace-nowrap disabled:opacity-50"
                 >
-                  {isConnecting ? "CONNECTING…" : "START NOW →"}
+                  {isConnecting ? "Connecting…" : "Start now"}
                 </button>
               ) : (
                 <Link href="/app" className="nb-btn-yellow text-sm whitespace-nowrap">
-                  OPEN APP →
+                  Open app
                 </Link>
               )}
               <Link href="/pools" className="nb-btn-ghost text-sm whitespace-nowrap">
-                VIEW POOLS
+                View pools
               </Link>
             </div>
           </div>

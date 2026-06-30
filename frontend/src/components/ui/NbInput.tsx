@@ -13,7 +13,7 @@ export function NbLabel({
     <label htmlFor={htmlFor} className="block">
       <span className="nb-label">{children}</span>
       {error && (
-        <span className="block text-xs text-nb-pink mt-0.5 normal-case tracking-normal">
+        <span className="block text-xs text-red-600 mt-0.5 normal-case tracking-normal">
           {error}
         </span>
       )}

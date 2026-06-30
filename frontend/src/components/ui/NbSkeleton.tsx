@@ -1,14 +1,12 @@
 export function NbSkeleton({ className = "" }: { className?: string }) {
   return (
     <div
-      className={`animate-pulse bg-white/10 border-3 border-white/20 ${className}`.trim()}
+      className={`animate-pulse bg-black/5 border border-black/10 rounded-2xl ${className}`.trim()}
       aria-hidden
     />
   );
 }
 
 export function PoolCardSkeleton() {
-  return (
-    <NbSkeleton className="h-48 w-full" />
-  );
+  return <NbSkeleton className="h-48 w-full" />;
 }

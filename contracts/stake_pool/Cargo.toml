@@ -14,3 +14,4 @@ soroban-sdk = { workspace = true }
 [dev-dependencies]
 soroban-sdk = { workspace = true, features = ["testutils"] }
 reputation_ledger = { path = "../reputation_ledger", package = "reputation_ledger" }
+proof_badge = { path = "../proof_badge", package = "proof_badge" }

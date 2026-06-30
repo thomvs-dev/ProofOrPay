@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["reputation_ledger", "stake_pool"]
+members = ["reputation_ledger", "stake_pool", "proof_badge"]
 
 [workspace.dependencies]
 soroban-sdk = "22.0.1"

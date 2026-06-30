@@ -907,6 +907,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "proof_badge"
+version = "0.1.0"
+dependencies = [
+ "soroban-sdk",
+]
+
+[[package]]
 name = "quote"
 version = "1.0.45"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1366,6 +1373,7 @@ dependencies = [
 name = "stake_pool"
 version = "0.1.0"
 dependencies = [
+ "proof_badge",
  "reputation_ledger",
  "soroban-sdk",
 ]

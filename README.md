@@ -1,15 +1,44 @@
 ProofOrPay
 
 **Tagline:** *Stake your word. Ship or lose.*
-🔵 Level 6 - Black Belt Submission
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/9fc7f45f-8c9b-45f9-9be6-fc3a5a653d71" />
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/3b0fb95a-2453-4dc5-a00a-935ef7ab6f1d" />
-Stellar Testnet Deployed Link: https://pactprotocolstellar.vercel.app
-Please Try the DApp and let me know https://forms.gle/xaYrz9pPpga4Gvpr8
-More Community Contributions expecting
-Thanks @fahmmin for the fixes (PR 1) done
-Love you guys for the 32+ responses 😊🥳
-working on the improvements given 👇
+
+🔵 **Level 5 — Updated Resubmission**
+( Last time i was rejected without any remarks, please consider my hardwork :) )
+**Live dApp:** https://pactprotocolstellar.vercel.app  
+**Try it & give feedback:** https://forms.gle/xaYrz9pPpga4Gvpr8
+
+**Pitch deck & video demo:** [ProofOrPay — Google Drive](https://drive.google.com/drive/folders/18XRgBNNkfMLaD6nM15sa-C0Cp_c3cmaD?usp=sharing) (pitch deck + product walkthrough video)
+
+<img width="1900" height="899" alt="image" src="https://github.com/user-attachments/assets/7584424c-ff5a-406e-8542-17db624128f5" />
+<img width="1895" height="861" alt="image" src="https://github.com/user-attachments/assets/9cce0d94-320b-456b-b022-fff3afcdf079" />
+<img width="1152" height="780" alt="image" src="https://github.com/user-attachments/assets/2c6ab7af-25f2-46e7-a0f1-74c998288c3a" />
+
+
+## Resubmission changes (Level 5)
+
+This resubmission addresses the prior review feedback and submission requirements:
+
+- **Requirements coverage** — Smart contracts (StakePool, ReputationLedger, ProofBadgeNft), wallet flows, AI scoring, peer vouching, settlement, metrics, and testnet deployment documented end-to-end
+- **50 testnet users** — On-chain activity seeded with 50 distinct testnet accounts creating real accountability pools (personal goals, varied stakes/deadlines)
+- **Updated UI** — Unified light editorial design across landing and app; address-only member display; IPFS pool covers, proof uploads, and `/proofs` badge gallery
+- **Proper landing page** — Video hero, typewriter headline, how-it-works section, and shared nav into the dApp
+
+Thanks @fahmmin for the fixes (PR 1). More community contributions welcome.
+
+## User feedback summary
+
+| Metric | Result |
+|--------|--------|
+| Total responses (round 1) | 25 |
+| Average final rating | ~4.8 / 5 |
+| “Yes, completely” satisfied | 22 / 25 |
+| Most cited strengths | UI design, speed, innovation, clarity, wallet integration, ease of onboarding |
+| Common feature asks | Mobile UX, notifications, dark mode, analytics export, help guide |
+
+Full spreadsheet: https://docs.google.com/spreadsheets/d/1KhlwRZR5CFgg0mgbiugZdNBsWBBLp1huaQeiJMlVY-Y/edit?usp=sharing
+
+*Round 2 responses (20 additional testers) — to be added below.*
+
 ## User Feedback Form Responses 
 https://docs.google.com/spreadsheets/d/1KhlwRZR5CFgg0mgbiugZdNBsWBBLp1huaQeiJMlVY-Y/edit?usp=sharing
 
@@ -102,10 +131,14 @@ npm install && npm run dev
 
 | Contract | Address |
 |----------|---------|
-| StakePool | `CD2JZUQODTCZOE7KCR36NB6P7C7BP2S6L5VVXNCZN4HYGERSVFDQLM5U` |
-| ReputationLedger | `CBYPVEO7EADN3Y5XIFK6CJ4GIRT6MRKACWHAR3R2TS2GPKA5JQKNB74K` |
+| StakePool | `CDGATE6OC5NAAQ2N7ZE4QO6NNMJ3VZ42PVEAXG65ABFQVAC7EFNWMPCM` |
+| ReputationLedger | `CDY7YYFDK6DGGJURVO3QMKDO647OMQO7ZMT4SDN25WHV73BA76KAG6BK` |
+| ProofBadgeNft | `CCUADEHJLUGBGHVJZNMJYXD6XOKT7KL32IYWYJOSSHNR6JTYVXAT7OI5` |
+| XLM (SAC) | `CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC` |
 
-**Init txs:** [Reputation `init`](https://stellar.expert/explorer/testnet/tx/4232d5e717cd82d88bce9eb22c37b17583d1a43ce09e4536f197854dacad5f3e) · [StakePool `init`](https://stellar.expert/explorer/testnet/tx/6e869ed207fa884a0352872252a677966af351e093f8b11bbdae0aa4434f2ae6)
+**Init txs:** [Reputation `init`](https://stellar.expert/explorer/testnet/tx/f3db22146ee8147a2ddea9cebe432ec67579e5e9d5cd7beeb064858fbf3e8232) · [ProofBadge `init`](https://stellar.expert/explorer/testnet/tx/e0efddbe72bdd57ebb10f23febfdee571184b0257d54f6232fd09ac30e554499) · [StakePool `init`](https://stellar.expert/explorer/testnet/tx/ec48d5300ddc3cc8d71602ee6a15741a3fbbfe781439dd551ee2218fdc10cec1)
+
+**Deploy txs:** [ReputationLedger](https://stellar.expert/explorer/testnet/contract/CDY7YYFDK6DGGJURVO3QMKDO647OMQO7ZMT4SDN25WHV73BA76KAG6BK) · [ProofBadgeNft](https://stellar.expert/explorer/testnet/contract/CCUADEHJLUGBGHVJZNMJYXD6XOKT7KL32IYWYJOSSHNR6JTYVXAT7OI5) · [StakePool](https://stellar.expert/explorer/testnet/contract/CDGATE6OC5NAAQ2N7ZE4QO6NNMJ3VZ42PVEAXG65ABFQVAC7EFNWMPCM)
 
 **Verifier:** `GBOSD6IY2IKFL4WF6L36SAO6UJDAQXZ4DMJLCRMYTGIAFZZXO7WBROWC` (CLI alias `prooforpay-verifier`)
 

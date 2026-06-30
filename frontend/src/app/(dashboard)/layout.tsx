@@ -1,7 +1,34 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import WalletConnect, { WalletBanner } from "@/components/WalletConnect";
+
+function NavLink({
+  href,
+  label,
+  activeClass,
+  idleClass,
+}: {
+  href: string;
+  label: string;
+  activeClass: string;
+  idleClass: string;
+}) {
+  const pathname = usePathname();
+  const active = pathname === href || (href !== "/" && pathname.startsWith(href));
+
+  return (
+    <Link
+      href={href}
+      className={`px-3 py-1.5 font-bold uppercase tracking-wide text-xs border-2 transition-all ${
+        active ? activeClass : idleClass
+      }`}
+    >
+      {label}
+    </Link>
+  );
+}
 
 export default function DashboardLayout({
   children,
@@ -19,24 +46,24 @@ export default function DashboardLayout({
             PROOF<span className="text-white">ORPAY</span>
           </Link>
           <div className="flex items-center gap-1 sm:gap-2 text-sm">
-            <Link
+            <NavLink
               href="/pools"
-              className="px-3 py-1.5 font-bold uppercase tracking-wide text-xs text-white hover:text-nb-yellow border-2 border-transparent hover:border-nb-yellow transition-all"
-            >
-              Pools
-            </Link>
-            <Link
+              label="Pools"
+              activeClass="text-nb-yellow border-nb-yellow"
+              idleClass="text-white hover:text-nb-yellow border-transparent hover:border-nb-yellow"
+            />
+            <NavLink
               href="/metrics"
-              className="px-3 py-1.5 font-bold uppercase tracking-wide text-xs text-white hover:text-nb-green border-2 border-transparent hover:border-nb-green transition-all hidden sm:block"
-            >
-              Metrics
-            </Link>
-            <Link
+              label="Metrics"
+              activeClass="text-nb-green border-nb-green"
+              idleClass="text-white hover:text-nb-green border-transparent hover:border-nb-green hidden sm:block"
+            />
+            <NavLink
               href="/app"
-              className="px-3 py-1.5 font-bold uppercase tracking-wide text-xs text-white hover:text-nb-green border-2 border-transparent hover:border-nb-green transition-all"
-            >
-              Launch App
-            </Link>
+              label="Launch App"
+              activeClass="text-nb-green border-nb-green"
+              idleClass="text-white hover:text-nb-green border-transparent hover:border-nb-green"
+            />
             <WalletConnect />
           </div>
         </div>

@@ -124,7 +124,10 @@ export function CreatePoolForm({ onPoolCreated }: Props) {
 
       <TxStatus
         state={tx}
-        label="CREATE POOL"      />
+        label="CREATE POOL"
+        onDismiss={() => setTx({ status: "idle" })}
+        onRetry={() => setTx({ status: "idle" })}
+      />
     </form>
   );
 }

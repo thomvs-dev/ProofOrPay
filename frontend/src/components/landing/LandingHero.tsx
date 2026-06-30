@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useWallet } from "@/components/WalletConnect";
 import { useTypewriter } from "@/hooks/useTypewriter";
 import { CopyContactPill } from "./CopyContactPill";
+import { useToast } from "@/components/ui/Toast";
 
 const TYPEWRITER_TEXT =
   "Glad you stopped in. Good builders stake here. Now, what are we shipping?";
@@ -12,6 +13,7 @@ const TYPEWRITER_TEXT =
 export function LandingHero() {
   const { displayed, done } = useTypewriter(TYPEWRITER_TEXT);
   const { publicKey, connect, isConnecting } = useWallet();
+  const { toast } = useToast();
 
   const [pillsVisible, setPillsVisible] = useState(false);
 
@@ -84,7 +86,7 @@ export function LandingHero() {
           <a href="#how-it-works" className={pillClass}>
             See how it works
           </a>
-          <CopyContactPill />
+          <CopyContactPill onCopied={() => toast("Email copied to clipboard")} />
         </div>
       </div>
     </section>

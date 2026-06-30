@@ -47,7 +47,10 @@ export function StakeForm({ poolId, onSuccess }: { poolId: bigint; onSuccess?: (
       <p className="text-xs text-nb-muted font-mono">{NETWORK.networkId}</p>
       <TxStatus
         state={tx}
-        label="STAKE"      />
+        label="STAKE"
+        onDismiss={() => setTx({ status: "idle" })}
+        onRetry={() => setTx({ status: "idle" })}
+      />
     </div>
   );
 }

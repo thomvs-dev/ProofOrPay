@@ -5,6 +5,8 @@ import { useWallet } from "@/components/WalletConnect";
 import { CONTRACT_IDS } from "@/lib/constants";
 import { simulateTx, addressToScVal, u64ToScVal } from "@/lib/stellar";
 import { CreatePoolForm } from "@/components/CreatePoolForm";
+import { NbButton } from "@/components/ui/NbButton";
+import { PoolCardSkeleton } from "@/components/ui/NbSkeleton";
 import { StakeForm } from "@/components/StakeForm";
 import { SubmissionForm } from "@/components/SubmissionForm";
 import { ConfirmPeerForm } from "@/components/ConfirmPeerForm";
@@ -137,7 +139,7 @@ export default function AppPage() {
     return (
       <div className="space-y-8 pb-16">
         <div className="border-b-3 border-white pb-6">
-          <p className="text-xs font-bold uppercase tracking-widest text-nb-muted mb-2">PACT PROTOCOL</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-nb-muted mb-2">PROOFORPAY</p>
           <h1 className="text-5xl font-black uppercase tracking-tight text-white">
             LAUNCH <span className="text-nb-green">APP</span>
           </h1>
@@ -214,9 +216,9 @@ export default function AppPage() {
       </div>
 
       {loading && (
-        <div className="flex items-center gap-3">
-          <span className="inline-block h-5 w-5 animate-spin rounded-full border-3 border-nb-yellow border-t-transparent" />
-          <span className="text-nb-muted font-bold uppercase text-sm">LOADING POOLS…</span>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <PoolCardSkeleton />
+          <PoolCardSkeleton />
         </div>
       )}
 

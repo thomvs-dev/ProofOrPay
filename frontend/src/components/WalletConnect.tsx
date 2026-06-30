@@ -9,6 +9,7 @@ import React, {
 } from "react";
 import { createWalletKit } from "@/lib/wallets";
 import { ERRORS } from "@/lib/errors";
+import { NbButton } from "@/components/ui/NbButton";
 
 const FAUCET =
   "https://developers.stellar.org/docs/fundamentals-and-concepts/testnet-and-pubnet";
@@ -136,12 +137,15 @@ export default function WalletConnect() {
   if (isConnected && publicKey) {
     const short = `${publicKey.slice(0, 6)}…${publicKey.slice(-4)}`;
     return (
-      <div className="flex items-center gap-2">
-        <span className="text-xs font-mono text-nb-muted hidden sm:block">{short}</span>
+      <div className="flex items-center gap-2" title={publicKey}>
+        <span className="text-xs font-mono text-nb-muted hidden sm:block bg-white/5 px-2 py-1 border border-white/20">
+          {short}
+        </span>
         <button
           type="button"
           onClick={disconnect}
           className="text-xs font-black uppercase border-2 border-white px-3 py-1.5 text-white hover:border-nb-red hover:text-nb-red transition-all"
+          title="Disconnect wallet"
         >
           DISCONNECT
         </button>
@@ -150,14 +154,15 @@ export default function WalletConnect() {
   }
 
   return (
-    <button
-      type="button"
+    <NbButton
+      variant="yellow"
       onClick={connect}
       disabled={isConnecting}
-      className="nb-btn-yellow text-xs disabled:opacity-50"
+      loading={isConnecting}
+      className="text-xs"
     >
       {isConnecting ? "CONNECTING…" : "CONNECT WALLET"}
-    </button>
+    </NbButton>
   );
 }
 

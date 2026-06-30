@@ -6,6 +6,7 @@ import { useWallet } from "@/components/WalletConnect";
 import { CONTRACT_IDS } from "@/lib/constants";
 import { simulateTx, addressToScVal, u64ToScVal } from "@/lib/stellar";
 import { NbInput } from "@/components/ui/NbInput";
+import { PoolCardSkeleton } from "@/components/ui/NbSkeleton";
 import type { MemberView, PoolView, PoolStatus } from "@/types/pact";
 
 function mapPool(raw: unknown): PoolView {
@@ -374,13 +375,11 @@ export default function PoolsPage() {
 
       {/* Loading skeleton */}
       {loading && (
-        <div className="grid gap-4 sm:grid-cols-2">          {[1, 2, 3, 4].map((n) => (
-            <div key={n} className="nb-card p-5 space-y-3 animate-pulse">
-              <div className="h-4 bg-white/10 w-1/3" />
-              <div className="h-6 bg-white/10 w-3/4" />
-              <div className="h-3 bg-white/10 w-1/2" />
-            </div>
-          ))}
+        <div className="grid gap-4 sm:grid-cols-2">
+          <PoolCardSkeleton />
+          <PoolCardSkeleton />
+          <PoolCardSkeleton />
+          <PoolCardSkeleton />
         </div>
       )}
 

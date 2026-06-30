@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Space_Mono } from "next/font/google";
 import "./globals.css";
 import { WalletProvider } from "@/components/WalletConnect";
+import { ToastProvider } from "@/components/ui/Toast";
 
 const spaceMono = Space_Mono({
   weight: ["400", "700"],
@@ -31,7 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-screen bg-nb-bg text-nb-white">
         <WalletProvider>
-          {children}
+          <ToastProvider>{children}</ToastProvider>
         </WalletProvider>
       </body>
     </html>
